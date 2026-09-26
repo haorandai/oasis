@@ -33,4 +33,4 @@ GitHub Pages serves the root of the `main` branch. `.nojekyll` enables direct st
 
 ## Attribution
 
-Paper content and Figure 1 belong to the paper authors. The linked OpenReview record specifies CC BY 4.0. This page summarizes the paper and reproduces the architecture figure with attribution. The page layout is custom static HTML/CSS; it does not bundle a third-party website template. Fonts are DM Sans and Manrope, loaded through Google Fonts with local system fallbacks.
+Paper content and Figure 1 belong to the paper authors. The linked OpenReview record specifies CC BY 4.0. This page summarizes the paper and reproduces the architecture figure with attribution. The page layout is custom static HTML/CSS, with visual references to OpenAI's research pages and QuiverAI's restrained typography and grid. It does not bundle their source code, logos, or a third-party website template. Geist is loaded through Google Fonts with local system fallbacks.
