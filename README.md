@@ -38,6 +38,8 @@ Authors, order, title, year, and poster status were checked against the NeurIPS 
 
 ## Hosting
 
+Website repository: https://github.com/oasis-research/oasis-research.github.io (organization `oasis-research`). Public URL: https://oasis-research.github.io/
+
 GitHub Pages serves the root of the `main` branch. `.nojekyll` enables direct static-file serving. All local asset paths are relative, so the site works under a project subdirectory as well as a custom domain. No changes to the research-code repository or personal-homepage repository are needed.
 
 ## Attribution
