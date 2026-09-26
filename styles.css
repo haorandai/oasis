@@ -110,6 +110,14 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 .author-band { row-gap: 10px; }
 .authors sup { font-size: 11px; line-height: 0; margin-left: 2px; }
 .author-note { grid-column: 2; font-size: 12px; color: var(--muted); }
+.affiliation-band { border-bottom: 1px solid var(--line); padding: 25px 0 27px; display: grid; grid-template-columns: 148px 1fr; align-items: start; gap: 25px; }
+.affiliation-band h2 { font-size: 13px; color: var(--muted); font-weight: 400; padding-top: 11px; }
+.affiliations { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 30px; row-gap: 4px; font-size: 14px; }
+.affiliations li { display: flex; align-items: center; gap: 13px; min-width: 0; }
+.aff-logo { flex: none; display: grid; place-items: center; width: 44px; height: 38px; }
+.aff-logo img { max-width: 100%; max-height: 100%; filter: grayscale(1) contrast(1.06); }
+.aff-name { min-width: 0; line-height: 1.45; }
+.aff-name sup { font-size: 11px; line-height: 0; margin-right: 4px; color: var(--muted); }
 .equation { min-width: 0; overflow-x: auto; padding: 8px 3px; font-size: 16px; }
 .equation .katex-display { margin: 10px 0; }
 .equation .katex-display > .katex { text-align: left; }
@@ -152,7 +160,7 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 
 /* Centered content track: every text block ends on the same right edge as figures and tables. */
 :root { --track: 820px; }
-.author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: max(64px, calc((100% - var(--track)) / 2)); }
+.author-band, .affiliation-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: max(64px, calc((100% - var(--track)) / 2)); }
 .prose, .subsection-heading, .section-source, .paper-figure figcaption, .math-notation p { max-width: none; }
 .result-notes p { max-width: none; flex: 1; }
 
@@ -176,8 +184,8 @@ p, figcaption, dd, summary { text-wrap: pretty; }
   .observation-layout { gap: 25px; grid-template-columns: 1fr 1.4fr; }
   nav { gap: 22px; }
   .hero { padding: 86px 26px 64px; }
-  .author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: 38px; }
-  .author-band, .reading-section { grid-template-columns: 112px minmax(0, 1fr); }
+  .author-band, .affiliation-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: 38px; }
+  .author-band, .affiliation-band, .reading-section { grid-template-columns: 112px minmax(0, 1fr); }
   .prose p.lead { font-size: 25px; }
   .result-highlights article + article { padding-left: 30px; }
   .metric-values { gap: 14px; font-size: clamp(30px, 3.5vw, 45px); }
@@ -204,8 +212,11 @@ p, figcaption, dd, summary { text-wrap: pretty; }
   .resource-links { gap: 9px; margin-top: 27px; }
   .button { font-size: 13px; padding: 10px 16px; min-height: 44px; gap: 15px; }
   .resource-links .text-link { font-size: 12px; padding: 8px 10px; }
-  .author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: 24px; }
+  .author-band, .affiliation-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: 24px; }
   .author-band { grid-template-columns: 1fr; gap: 13px; padding: 23px 0 26px; }
+  .affiliation-band { grid-template-columns: 1fr; gap: 12px; padding: 21px 0 24px; }
+  .affiliation-band h2 { padding-top: 0; }
+  .affiliations { grid-template-columns: 1fr; row-gap: 8px; font-size: 13px; }
   .author-band .author-note { grid-column: 1; }
   .authors { font-size: 13px; column-gap: 18px; row-gap: 7px; }
   .reading-section { grid-template-columns: 1fr; gap: 24px; padding-block: 43px; }

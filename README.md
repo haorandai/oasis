@@ -25,6 +25,7 @@ Open `http://localhost:8000`.
 - `assets/observation-sinks.png` and `assets/observation-outliers.png`: Figures 2 and 3, rendered directly from pages 3 and 4 of the supplied manuscript.
 - `assets/quantization-*.svg`: selected FP16 and quantized means from Table 2; narrow-screen variants use horizontal bars. Regenerate with `python3 scripts/render-result-charts.py`.
 - `assets/vendor/katex/`: KaTeX 0.18.9, its fonts, and MIT license.
+- `assets/logos/`: institution marks shown in the Affiliations band. Sources: Wikimedia Commons for Northwestern, Rutgers, Michigan, UCLA, UC San Diego, Texas A&M, and Illinois Tech; `quiver.ai` for QuiverAI. They are rendered in one ink color (CSS `grayscale`; the Northwestern and UCLA files are recolored to `#202020` in place because their brand colors were too light to read at 40px). Drop the `filter` on `.aff-logo img` in `styles.css` to show them in brand color instead.
 
 Write inline math with `\(...\)` and display math with `\[...\]`. The renderer produces HTML and accessible MathML. Long equations scroll within their own region on small screens. The three displayed equations follow Sections 4.2 and 4.3 of the paper; the null posterior uses the per-head notation introduced in Section 4.3.
 
@@ -34,7 +35,7 @@ The displayed results are transcribed from Tables 2 and 3 of the manuscript supp
 
 The content follows Motivation → Methodology → Results → Evaluation context → Citation. The explanation structure draws on the problem/mechanism/results progression of [StreamingLLM](https://hanlab.mit.edu/projects/streamingllm) and the case-based explanations in [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html). These are presentation references, not sources for OASIS experimental claims.
 
-Title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo, Haoran Dai, and Ching-Yuen Huang are marked as equal contributors, as confirmed by the authors; Ching-Yuen Huang is listed third, ahead of the remaining OpenReview order, at the authors' request. Affiliations are omitted because they were not verified for this version. The author list in `index.html`, the `citation_author` metadata, and the BibTeX entry all use this order.
+Affiliations and the author-to-affiliation mapping follow the `\author` block of the manuscript; author emails are deliberately not published here. Corresponding authors are marked with a dagger. Title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo, Haoran Dai, and Ching-Yuen Huang are marked as equal contributors, as confirmed by the authors; Ching-Yuen Huang is listed third, ahead of the remaining OpenReview order, at the authors' request. Affiliations are omitted because they were not verified for this version. The author list in `index.html`, the `citation_author` metadata, and the BibTeX entry all use this order.
 
 ## Hosting
 
