@@ -25,7 +25,9 @@ Open `http://localhost:8000`.
 - `assets/observation-sinks.png` and `assets/observation-outliers.png`: Figures 2 and 3, rendered directly from pages 3 and 4 of the supplied manuscript.
 - `assets/quantization-*.svg`: selected FP16 and quantized means from Table 2; narrow-screen variants use horizontal bars. Regenerate with `python3 scripts/render-result-charts.py`.
 - `assets/vendor/katex/`: KaTeX 0.18.9, its fonts, and MIT license.
-- `assets/logos/`: institution marks shown in the Affiliations band. Sources: Wikimedia Commons for Northwestern, Rutgers, Michigan, UCLA, UC San Diego, Texas A&M, and Illinois Tech; `quiver.ai` for QuiverAI. They are rendered in one ink color (CSS `grayscale`; the Northwestern and UCLA files are recolored to `#202020` in place because their brand colors were too light to read at 40px). Drop the `filter` on `.aff-logo img` in `styles.css` to show them in brand color instead.
+- `assets/logos/`: institution marks shown in the Affiliations band, in brand color and unmodified. Sources: Wikimedia Commons for Northwestern, Rutgers, Michigan, UCLA, UC San Diego, Texas A&M, and Illinois Tech; `quiver.ai` for QuiverAI. Each sits in a 48x44 box (`.aff-logo`) and is fitted by `max-width`/`max-height`, so marks of any aspect ratio can be swapped in.
+
+Running text is justified with automatic hyphenation (`.prose p`, `.step-copy p`, `.subsection-heading p`, figure captions, and the table notes). The lead paragraphs and the narrow observation sidebar stay ragged-right: at that measure a single unbreakable term such as `beginning-of-text` opens a river across the column.
 
 Write inline math with `\(...\)` and display math with `\[...\]`. The renderer produces HTML and accessible MathML. Long equations scroll within their own region on small screens. The three displayed equations follow Sections 4.2 and 4.3 of the paper; the null posterior uses the per-head notation introduced in Section 4.3.
 
