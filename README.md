@@ -34,7 +34,7 @@ The displayed results are transcribed from Tables 2 and 3 of the manuscript supp
 
 The content follows Motivation → Methodology → Results → Evaluation context → Citation. The explanation structure draws on the problem/mechanism/results progression of [StreamingLLM](https://hanlab.mit.edu/projects/streamingllm) and the case-based explanations in [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html). These are presentation references, not sources for OASIS experimental claims.
 
-Authors, order, title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo and Haoran Dai are marked as equal contributors, as confirmed by the authors. Affiliations are omitted because they were not verified for this version. The BibTeX author list follows the named OpenReview author block.
+Title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo, Haoran Dai, and Ching-Yuen Huang are marked as equal contributors, as confirmed by the authors; Ching-Yuen Huang is listed third, ahead of the remaining OpenReview order, at the authors' request. Affiliations are omitted because they were not verified for this version. The author list in `index.html`, the `citation_author` metadata, and the BibTeX entry all use this order.
 
 ## Hosting
 

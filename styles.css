@@ -5,6 +5,8 @@
   --line: #e8e8e8;
   --soft: #f4f4f4;
   --font: 'Geist', 'Helvetica Neue', Arial, sans-serif;
+  --frame: 1180px;
+  --gutter: 48px;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
@@ -18,7 +20,7 @@ a:hover { color: #707070; }
 button { cursor: pointer; }
 .skip-link { position: fixed; top: -100px; left: 20px; z-index: 100; padding: 12px 20px; color: white; background: #202020; }
 .skip-link:focus { top: 12px; }
-.site-frame { max-width: 1328px; margin: 0 auto; border-inline: 1px solid var(--line); }
+.site-frame { width: min(var(--frame), 100% - var(--gutter) * 2); margin-inline: auto; border-inline: 1px solid var(--line); }
 .site-header { min-height: 86px; padding: 20px 36px; display: flex; align-items: center; gap: 40px; border-bottom: 1px solid var(--line); }
 .wordmark { display: inline-flex; align-items: center; gap: 9px; font-size: 22px; font-weight: 550; letter-spacing: -.07em; line-height: 1.1; }
 .brand-symbol { font-size: 32px; font-weight: 400; letter-spacing: -.1em; margin-right: 3px; }
@@ -29,7 +31,7 @@ nav { display: flex; gap: 28px; margin-left: auto; font-size: 14px; }
 .hero { padding: 99px 32px 76px; text-align: center; }
 .paper-meta { display: flex; align-items: center; justify-content: center; gap: 15px; font-size: 14px; color: #555; }
 .meta-divider { width: 1px; height: 12px; background: #c9c9c9; }
-h1 { margin: 28px auto 26px; font-size: clamp(44px, 5.4vw, 72px); line-height: 1.065; font-weight: 450; letter-spacing: -.06em; max-width: 1120px; }
+h1 { margin: 28px auto 26px; font-size: clamp(44px, 5.4vw, 72px); line-height: 1.065; font-weight: 450; letter-spacing: -.06em; max-width: 980px; }
 .hero-deck { font-size: 21px; font-weight: 400; letter-spacing: -.035em; color: #6b6b6b; }
 .resource-links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .button { display: inline-flex; align-items: center; gap: 22px; justify-content: center; min-height: 46px; padding: 11px 21px; font-size: 14px; border-radius: 28px; transition: background .15s; }
@@ -149,7 +151,7 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 .protocol dd { margin: 0; }
 
 /* Centered content track: every text block ends on the same right edge as figures and tables. */
-:root { --track: 1000px; }
+:root { --track: 920px; }
 .author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: max(64px, calc((100% - var(--track)) / 2)); }
 .prose, .subsection-heading, .section-source, .paper-figure figcaption, .math-notation p { max-width: none; }
 .result-notes p { max-width: none; flex: 1; }
@@ -167,7 +169,7 @@ p, figcaption, dd, summary { text-wrap: pretty; }
   .hero { padding-top: 116px; padding-bottom: 94px; }
 }
 @media (max-width: 1100px) {
-  .site-frame { margin-inline: 24px; }
+  :root { --gutter: 24px; }
   .site-header { padding-inline: 27px; gap: 28px; }
   .wordmark-note { display: none; }
   .reading-intro { grid-template-columns: 112px minmax(0, 1fr); }
@@ -186,7 +188,7 @@ p, figcaption, dd, summary { text-wrap: pretty; }
   .section-link { margin: 0 0 0 auto; font-size: 12px; }
   .method-intro-grid .section-label { width: 100%; }
   html { scroll-padding-top: 32px; }
-  .site-frame { margin-inline: 16px; }
+  :root { --gutter: 16px; }
   .site-header { min-height: 72px; padding: 17px 20px; gap: 18px; }
   .wordmark { font-size: 21px; }
   .brand-symbol { font-size: 28px; }
@@ -253,7 +255,7 @@ p, figcaption, dd, summary { text-wrap: pretty; }
   .footer-bottom { font-size: 11px; margin-top: 24px; }
 }
 @media (max-width: 375px) {
-  .site-frame { margin-inline: 10px; }
+  :root { --gutter: 10px; }
   .site-header { padding-inline: 15px; }
   nav { gap: 13px; }
   h1 { font-size: 34px; }
