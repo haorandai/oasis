@@ -5,8 +5,8 @@
   --line: #e8e8e8;
   --soft: #f4f4f4;
   --font: 'Geist', 'Helvetica Neue', Arial, sans-serif;
-  --frame: 1180px;
-  --gutter: 48px;
+  --frame: 1040px;
+  --gutter: 56px;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
@@ -31,7 +31,7 @@ nav { display: flex; gap: 28px; margin-left: auto; font-size: 14px; }
 .hero { padding: 99px 32px 76px; text-align: center; }
 .paper-meta { display: flex; align-items: center; justify-content: center; gap: 15px; font-size: 14px; color: #555; }
 .meta-divider { width: 1px; height: 12px; background: #c9c9c9; }
-h1 { margin: 28px auto 26px; font-size: clamp(44px, 5.4vw, 72px); line-height: 1.065; font-weight: 450; letter-spacing: -.06em; max-width: 980px; }
+h1 { margin: 28px auto 26px; font-size: clamp(44px, 5.4vw, 72px); line-height: 1.065; font-weight: 450; letter-spacing: -.06em; max-width: 880px; }
 .hero-deck { font-size: 21px; font-weight: 400; letter-spacing: -.035em; color: #6b6b6b; }
 .resource-links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .button { display: inline-flex; align-items: center; gap: 22px; justify-content: center; min-height: 46px; padding: 11px 21px; font-size: 14px; border-radius: 28px; transition: background .15s; }
@@ -151,7 +151,7 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 .protocol dd { margin: 0; }
 
 /* Centered content track: every text block ends on the same right edge as figures and tables. */
-:root { --track: 920px; }
+:root { --track: 820px; }
 .author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: max(64px, calc((100% - var(--track)) / 2)); }
 .prose, .subsection-heading, .section-source, .paper-figure figcaption, .math-notation p { max-width: none; }
 .result-notes p { max-width: none; flex: 1; }
