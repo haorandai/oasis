@@ -112,10 +112,10 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 .author-note { grid-column: 2; font-size: 12px; color: var(--muted); }
 .affiliation-band { border-bottom: 1px solid var(--line); padding: 25px 0 27px; display: grid; grid-template-columns: 148px 1fr; align-items: start; gap: 25px; }
 .affiliation-band h2 { font-size: 13px; color: var(--muted); font-weight: 400; padding-top: 11px; }
-.affiliations { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 30px; row-gap: 4px; font-size: 14px; }
+.affiliations { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 30px; row-gap: 11px; font-size: 14px; }
 .affiliations li { display: flex; align-items: center; gap: 13px; min-width: 0; }
 .aff-logo { flex: none; display: grid; place-items: center; width: 48px; height: 44px; }
-.aff-logo img { max-width: 100%; max-height: 100%; }
+.aff-logo img { width: 100%; height: 100%; object-fit: contain; }
 .aff-name { min-width: 0; line-height: 1.45; }
 .aff-name sup { font-size: 11px; line-height: 0; margin-right: 4px; color: var(--muted); }
 .equation { min-width: 0; overflow-x: auto; padding: 8px 3px; font-size: 16px; }
@@ -229,7 +229,7 @@ p, figcaption, dd, summary { text-wrap: pretty; }
   .author-band { grid-template-columns: 1fr; gap: 13px; padding: 23px 0 26px; }
   .affiliation-band { grid-template-columns: 1fr; gap: 12px; padding: 21px 0 24px; }
   .affiliation-band h2 { padding-top: 0; }
-  .affiliations { grid-template-columns: 1fr; row-gap: 8px; font-size: 13px; }
+  .affiliations { grid-template-columns: 1fr; row-gap: 15px; font-size: 13px; }
   .author-band .author-note { grid-column: 1; }
   .authors { font-size: 13px; column-gap: 18px; row-gap: 7px; }
   .reading-section { grid-template-columns: 1fr; gap: 24px; padding-block: 43px; }
