@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#244ad6">
+  <title>OASIS · Attention Sinks and Outliers in Attention Residuals</title>
+  <meta name="description" content="OASIS introduces null-aware token-to-depth routing to mitigate attention sinks and activation outliers in Attention Residuals. NeurIPS 2026.">
+  <meta property="og:title" content="OASIS · Attention Sinks and Outliers in Attention Residuals">
+  <meta property="og:description" content="Null-aware token-to-depth routing for more robust Attention Residuals. Accepted at NeurIPS 2026.">
+  <meta property="og:type" content="website">
+  <meta name="citation_title" content="Attention Sinks and Outliers in Attention Residuals">
+  <meta name="citation_author" content="Haozheng Luo">
+  <meta name="citation_author" content="Haoran Dai">
+  <meta name="citation_author" content="Shaoyang Zhang">
+  <meta name="citation_author" content="Xi Chen">
+  <meta name="citation_author" content="Eric Hanchen Jiang">
+  <meta name="citation_author" content="Yijiang Li">
+  <meta name="citation_author" content="Jingyuan Huang">
+  <meta name="citation_author" content="Chenghao Qiu">
+  <meta name="citation_author" content="Chenwei Xu">
+  <meta name="citation_author" content="Zhenyu Pan">
+  <meta name="citation_author" content="Haotian Zhang">
+  <meta name="citation_author" content="Binghui Wang">
+  <meta name="citation_author" content="Yan Chen">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="The Fortieth Annual Conference on Neural Information Processing Systems">
+  <meta name="citation_pdf_url" content="https://openreview.net/pdf?id=yjVSLVS0Dh">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23244ad6'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='white' stroke-width='5'/%3E%3Cpath d='M18 49L46 15' stroke='white' stroke-width='5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="#" aria-label="OASIS home"><span class="brand-symbol" aria-hidden="true">∅</span> OASIS</a>
+    <nav aria-label="Main navigation"><a href="#method">Method</a><a href="#results">Results</a><a href="#citation">Citation</a></nav>
+    <span class="header-venue">NeurIPS 2026</span>
+  </header>
+  <main id="main">
+    <section class="hero" aria-labelledby="paper-title">
+      <a class="venue-tag" href="https://openreview.net/forum?id=yjVSLVS0Dh">NeurIPS 2026 <span aria-hidden="true">/</span> Poster</a>
+      <h1 id="paper-title">Attention Sinks and Outliers<br class="desktop-break"> in Attention Residuals</h1>
+      <p class="hero-deck">Give attention a way to do nothing.<br>Let that signal guide the next layer.</p>
+      <div class="authors" aria-label="Paper authors">
+        <a href="https://openreview.net/profile?id=~Haozheng_Luo2">Haozheng Luo</a><a href="https://openreview.net/profile?id=~Haoran_Dai3">Haoran Dai</a><a href="https://openreview.net/profile?id=~Shaoyang_Zhang3">Shaoyang Zhang</a><a href="https://openreview.net/profile?id=~Xi_Chen101">Xi Chen</a><a href="https://openreview.net/profile?id=~Eric_Hanchen_Jiang1">Eric Hanchen Jiang</a><a href="https://openreview.net/profile?id=~Yijiang_Li1">Yijiang Li</a><a href="https://openreview.net/profile?id=~Jingyuan_Huang4">Jingyuan Huang</a><a href="https://openreview.net/profile?id=~Chenghao_Qiu2">Chenghao Qiu</a><a href="https://openreview.net/profile?id=~Chenwei_Xu2">Chenwei Xu</a><a href="https://openreview.net/profile?id=~Zhenyu_Pan1">Zhenyu Pan</a><a href="https://openreview.net/profile?id=~Haotian_Zhang15">Haotian Zhang</a><a href="https://openreview.net/profile?id=~Binghui_Wang2">Binghui Wang</a><a href="https://openreview.net/profile?id=~Yan_Chen1">Yan Chen</a>
+      </div>
+      <div class="resource-links">
+        <a class="button primary" href="https://openreview.net/pdf?id=yjVSLVS0Dh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7zM14 3v5h4M10 12h5m-5 4h5"/></svg>Read the paper</a>
+        <a class="button" href="https://github.com/robinzixuan/OASIS"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/></svg>Code repository</a>
+        <a class="button" href="https://openreview.net/forum?id=yjVSLVS0Dh">OpenReview <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="idea-band" aria-labelledby="idea-title">
+      <div class="idea-copy"><p class="eyebrow">The idea in one minute</p><h2 id="idea-title">A null route.<br>A better routing signal.</h2><p>Attention Residuals mix information across tokens and layers. OASIS adds an explicit null option to both, then uses token-level null evidence to adjust how earlier layers are weighted.</p></div>
+      <div class="signal-flow" role="img" aria-label="Token attention produces a null signal. Aggregated null evidence adjusts depth routing, which also has a null path.">
+        <div class="flow-stage"><span class="flow-index">01 / TOKEN LEVEL</span><strong>Attend or abstain</strong><div class="token-row" aria-hidden="true"><i></i><i></i><i></i><i class="null-token">∅</i></div><span class="flow-small">Softmax<sub>1</sub> adds a null option</span></div>
+        <div class="flow-connector"><span>Null evidence</span><span aria-hidden="true">↓</span></div>
+        <div class="flow-stage depth-stage"><span class="flow-index">02 / DEPTH LEVEL</span><strong>Route with that evidence</strong><div class="depth-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><span>∅</span></div><span class="flow-small">Adjust branch logits, then normalize</span></div>
+      </div>
+    </section>
+
+    <section id="overview" class="section overview">
+      <div class="section-label"><span>01</span><h2>Overview</h2></div>
+      <div class="prose"><p class="lead">More flexible routing can come with a cost: attention sinks, extreme activations, and sensitivity to quantization.</p><p>AttnResidual introduces depth-wise attention alongside token-wise attention. With standard softmax, both must allocate all probability mass to real tokens or branches—even when the desired update is close to zero.</p><p><strong>OASIS</strong> gives each router an explicit null channel through Softmax<sub>1</sub>. Its key addition is <strong>token-to-depth null coupling</strong>: aggregate the null probabilities across attention heads and use the resulting signal to adjust depth-routing logits. A branch with stronger null evidence is downweighted relative to one with weaker null evidence.</p><p>The paper studies this mechanism theoretically under stated assumptions and evaluates activation statistics, language-model perplexity, and reasoning accuracy under quantization.</p></div>
+    </section>
+
+    <section id="method" class="section method">
+      <div class="section-label"><span>02</span><h2>Inside OASIS</h2></div>
+      <div class="section-content">
+        <p class="section-intro">Connect what the token router knows to what the depth router decides.</p>
+        <figure class="paper-figure"><a href="assets/method.png" aria-label="Open the full-size OASIS architecture figure"><img src="assets/method.png" width="1215" height="693" alt="Figure 1: Standard Attention Residuals compared with OASIS. OASIS introduces token- and depth-level Softmax1 null routes and a coupling path that aggregates head-level null probabilities, mean-centers them, and adjusts depth logits." loading="lazy"></a><figcaption><span>Figure 1</span> Architecture overview from the paper. AoS introduces null routes at both levels; OASIS adds the token-to-depth coupling path. <a href="assets/method.png">View full size ↗</a></figcaption></figure>
+        <ol class="method-steps"><li><span>1</span><div><h3>Make room for a null state</h3><p>Softmax<sub>1</sub> adds 1 to the normalization denominator, leaving probability mass for an explicit zero-valued option.</p></div></li><li><span>2</span><div><h3>Summarize null evidence</h3><p>Aggregate token-level null probabilities across heads to obtain a branch-level signal.</p></div></li><li><span>3</span><div><h3>Couple tokens to depth</h3><p>Center that signal and inject it into the depth logits before null-aware depth normalization.</p></div></li></ol>
+      </div>
+    </section>
+
+    <section id="results" class="section results">
+      <div class="section-label"><span>03</span><h2>Selected results</h2></div>
+      <div class="section-content">
+        <p class="section-intro">More robust under quantization.</p>
+        <div class="result-highlights">
+          <article><p class="metric-label">Llama-3.2-1B · W8A8</p><p class="metric">72.96<span>%</span><span class="metric-direction"> lower</span></p><h3>WikiText-2 perplexity</h3><p>30.189 → 8.162<br>OASIS vs. Vanilla AttnResidual</p></article>
+          <article><p class="metric-label">Qwen3-0.6B · W4A4</p><p class="metric">+4.67<span> pp</span></p><h3>GSM8K Pass@1 from coupling</h3><p>54.21% → 58.88%<br>OASIS vs. uncoupled AoS</p></article>
+        </div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Quantization results table, scroll horizontally on small screens">
+          <table><caption>Reported results from Table 2</caption><thead><tr><th scope="col">Backbone</th><th scope="col">Method</th><th scope="col">W8A8 PPL <span aria-label="lower is better">↓</span></th><th scope="col">W4A4 GSM8K (%) <span aria-label="higher is better">↑</span></th></tr></thead><tbody>
+            <tr><th scope="rowgroup" rowspan="4">Llama-3.2-1B</th><td>Vanilla</td><td>30.189 ± 0.063</td><td>12.97 ± 0.24</td></tr>
+            <tr><td>OutEffHop</td><td>10.419 ± 0.011</td><td>13.16 ± 0.21</td></tr>
+            <tr><td>AoS</td><td>9.364 ± 0.010</td><td>13.34 ± 0.18</td></tr>
+            <tr class="ours"><td>OASIS</td><td>8.162 ± 0.009</td><td>13.52 ± 0.17</td></tr>
+            <tr class="model-divider"><th scope="rowgroup" rowspan="4">Qwen3-0.6B</th><td>Vanilla</td><td>36.642 ± 0.079</td><td>45.67 ± 0.86</td></tr>
+            <tr><td>OutEffHop</td><td>10.599 ± 0.012</td><td>52.36 ± 0.74</td></tr>
+            <tr><td>AoS</td><td>9.615 ± 0.011</td><td>54.21 ± 0.66</td></tr>
+            <tr class="ours"><td>OASIS</td><td>9.517 ± 0.010</td><td>58.88 ± 0.59</td></tr>
+          </tbody></table>
+        </div>
+        <p class="table-note">Mean ± standard deviation over three runs. “Vanilla” denotes the paper’s AttnResidual baseline; AoS uses independent null routing at both levels. Perplexity is measured on WikiText-2; GSM8K is Pass@1. W8A8 and W4A4 denote 8-bit and 4-bit weights and activations. pp = percentage points.</p>
+        <p class="source-note">Selected experiments from the linked manuscript, Table 2 (p. 8). Comparisons are specific to these backbones and evaluation settings. <a href="https://openreview.net/pdf?id=yjVSLVS0Dh#page=8">See the full results and protocol ↗</a></p>
+      </div>
+    </section>
+
+    <section id="citation" class="section citation">
+      <div class="section-label"><span>04</span><h2>Citation</h2></div>
+      <div class="section-content"><div class="citation-top"><p>If you use this work, please cite the paper.</p><div class="citation-actions"><a href="citation.bib" download>Download .bib</a><button type="button" id="copy-citation">Copy BibTeX</button></div></div>
+        <pre><code id="bibtex">@inproceedings{luo2026attention,
+  title     = {Attention Sinks and Outliers in Attention Residuals},
+  author    = {Haozheng Luo and Haoran Dai and Shaoyang Zhang and
+               Xi Chen and Eric Hanchen Jiang and Yijiang Li and
+               Jingyuan Huang and Chenghao Qiu and Chenwei Xu and
+               Zhenyu Pan and Haotian Zhang and Binghui Wang and Yan Chen},
+  booktitle = {The Fortieth Annual Conference on Neural Information Processing Systems},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=yjVSLVS0Dh}
+}</code></pre><p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+  <footer><a class="wordmark" href="#"><span class="brand-symbol" aria-hidden="true">∅</span> OASIS</a><p>Attention Sinks and Outliers in Attention Residuals<br><span>NeurIPS 2026</span></p><a href="https://openreview.net/forum?id=yjVSLVS0Dh">Paper on OpenReview ↗</a></footer>
+</body>
+</html>
