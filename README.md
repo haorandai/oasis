@@ -19,7 +19,7 @@ Open `http://localhost:8000`.
 
 - `index.html`: title, authors, method, result table, citation, and metadata.
 - `styles.css`: typography, layout, and mobile styles.
-- `script.js`: LaTeX rendering and the copy-citation interaction, with a manual-copy fallback.
+- `script.js`: LaTeX rendering, the copy-citation interaction with a manual-copy fallback, and the header paper menu. Shared by all pages.
 - `citation.bib`: downloadable citation; keep it synchronized with the HTML.
 - `assets/method.png`: Figure 1, cropped from page 2 of the manuscript.
 - `assets/observation-sinks.png` and `assets/observation-outliers.png`: Figures 2 and 3, rendered directly from pages 3 and 4 of the supplied manuscript.
@@ -38,6 +38,22 @@ The displayed results are transcribed from Tables 2 and 3 of the manuscript supp
 The content follows Motivation → Methodology → Results → Evaluation context → Citation. The explanation structure draws on the problem/mechanism/results progression of [StreamingLLM](https://hanlab.mit.edu/projects/streamingllm) and the case-based explanations in [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html). These are presentation references, not sources for OASIS experimental claims.
 
 Affiliations and the author-to-affiliation mapping follow the `\author` block of the manuscript; author emails are deliberately not published here. Corresponding authors are marked with a dagger. Title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo, Haoran Dai, and Ching-Yuen Huang are marked as equal contributors, as confirmed by the authors; Ching-Yuen Huang is listed third, ahead of the remaining OpenReview order, at the authors' request. Affiliations are omitted because they were not verified for this version. The author list in `index.html`, the `citation_author` metadata, and the BibTeX entry all use this order.
+
+## Previous work pages
+
+The header's **Previous work** menu (hover or keyboard focus opens it; tap toggles it on touch; Escape closes it) links to three sub-pages built in the same style:
+
+| Path | Paper | Venue |
+|---|---|---|
+| `frost/` | FROST: Filtering Reasoning Outliers with Attention for Efficient Reasoning ([arXiv 2601.19001](https://arxiv.org/abs/2601.19001)) | ICLR 2026 |
+| `germ/` | Fast and Low-Cost Genomic Foundation Models via Outlier Removal ([arXiv 2505.00598](https://arxiv.org/abs/2505.00598)) | ICML 2025 |
+| `outeffhop/` | Outlier-Efficient Hopfield Layers for Large Transformer-Based Models ([arXiv 2404.03828](https://arxiv.org/abs/2404.03828)) | ICML 2024 |
+
+- Each sub-page loads the shared `../styles.css`, `../script.js`, and `../assets/vendor/katex/`, and has its own `citation.bib` and `assets/`. A short inline `<style>` in each page covers page-specific details (unlinked author names, table group headers, bold best values). On sub-pages the same menu is labelled **Related work** and also links back to OASIS; the current page is marked with `aria-current="page"`. When adding a paper, update the menu in all four `index.html` files.
+- Figures are rendered from each paper's arXiv source (PDF figures rasterized with PyMuPDF and trimmed): FROST Figs. 1, 3, 4, 5; GERM Figs. 1, 2 and the first pair of appendix Fig. 3; OutEffHop Fig. 1 (source PNG) and Figs. 2–4 (cropped from PDF page 7). Numbers are transcribed from the papers' tables; headline percentages are computed from those tables and identify their baselines.
+- BibTeX for GERM and OutEffHop comes from PMLR (v267 `luo25g`, v235 `hu24a`). The FROST OpenReview forum id (`a9dngZLqGS`) is taken from ML Anthology because OpenReview blocks automated fetches; the page follows the arXiv camera-ready numbers, not the earlier workshop version.
+- Author names on the sub-pages are unlinked because the OpenReview profile ids were not verified. The ICML templates list every author as a correspondence contact, so no dagger is shown on GERM and OutEffHop.
+- `assets/logos/rtx.svg` and `assets/logos/iowa-state.svg` are public-domain files from Wikimedia Commons, unmodified. Tianjin University, Vernon Hills High School, and National Taiwan University have no free logo on Commons, so those affiliations are text-only (GERM's affiliations are all text-only to keep the rows aligned).
 
 ## Hosting
 

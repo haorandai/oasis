@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171717">
+  <title>OutEffHop · Outlier-Efficient Hopfield Layers for Large Transformer-Based Models</title>
+  <meta name="description" content="OutEffHop is an outlier-efficient modern Hopfield model whose one-step retrieval recovers Softmax1 attention, reducing activation outliers in BERT, OPT, ViT, and STanHop-Net. ICML 2024.">
+  <meta property="og:title" content="OutEffHop · Outlier-Efficient Hopfield Layers for Large Transformer-Based Models">
+  <meta property="og:description" content="An associative-memory account of outlier-efficient attention. ICML 2024.">
+  <meta property="og:type" content="website">
+  <meta name="citation_title" content="Outlier-Efficient Hopfield Layers for Large Transformer-Based Models">
+  <meta name="citation_author" content="Jerry Yao-Chieh Hu">
+  <meta name="citation_author_institution" content="Northwestern University">
+  <meta name="citation_author" content="Pei-Hsuan Chang">
+  <meta name="citation_author_institution" content="National Taiwan University">
+  <meta name="citation_author" content="Haozheng Luo">
+  <meta name="citation_author_institution" content="Northwestern University">
+  <meta name="citation_author" content="Hong-Yu Chen">
+  <meta name="citation_author_institution" content="National Taiwan University">
+  <meta name="citation_author" content="Weijian Li">
+  <meta name="citation_author_institution" content="Northwestern University">
+  <meta name="citation_author" content="Wei-Po Wang">
+  <meta name="citation_author_institution" content="National Taiwan University">
+  <meta name="citation_author" content="Han Liu">
+  <meta name="citation_author_institution" content="Northwestern University">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="Proceedings of the 41st International Conference on Machine Learning">
+  <meta name="citation_volume" content="235">
+  <meta name="citation_firstpage" content="19123">
+  <meta name="citation_lastpage" content="19152">
+  <meta name="citation_arxiv_id" content="2404.03828">
+  <meta name="citation_pdf_url" content="https://raw.githubusercontent.com/mlresearch/v235/main/assets/hu24a/hu24a.pdf">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23171717'/%3E%3Cpath d='M16 44c6-20 10-26 16-26s10 6 16 26' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="canonical" href="https://oasis-research.github.io/outeffhop/">
+  <meta property="og:url" content="https://oasis-research.github.io/outeffhop/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;550;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="../styles.css?v=15">
+  <script src="../assets/vendor/katex/katex.min.js" defer></script>
+  <script src="../assets/vendor/katex/contrib/auto-render.min.js" defer></script>
+  <script src="../script.js?v=4" defer></script>
+  <style>
+    /* Best value per column in the STanHop-Net table, as bolded in the paper. */
+    td.best { font-weight: 600; }
+    th[scope="colgroup"] { text-align: center; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-frame">
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="OutEffHop home">OutEffHop<span class="wordmark-note">ICML 2024</span></a>
+      <nav aria-label="Main navigation"><a href="#motivation">Motivation</a><a href="#methodology">Methodology</a><a href="#results">Results</a><a href="#citation">Citation</a>
+        <div class="nav-menu">
+          <button type="button" class="nav-menu-toggle" aria-expanded="false" aria-controls="related-work">Related work <span class="nav-caret" aria-hidden="true">▾</span></button>
+          <ul class="nav-menu-list" id="related-work">
+            <li><a href="../"><span class="nav-menu-name">OASIS</span><span class="nav-menu-title">Attention Sinks and Outliers in Attention Residuals</span><span class="nav-menu-venue">NeurIPS 2026</span></a></li>
+            <li><a href="../frost/"><span class="nav-menu-name">FROST</span><span class="nav-menu-title">Filtering Reasoning Outliers with Attention for Efficient Reasoning</span><span class="nav-menu-venue">ICLR 2026</span></a></li>
+            <li><a href="../germ/"><span class="nav-menu-name">GERM</span><span class="nav-menu-title">Fast and Low-Cost Genomic Foundation Models via Outlier Removal</span><span class="nav-menu-venue">ICML 2025</span></a></li>
+            <li><a href="./" aria-current="page"><span class="nav-menu-name">OutEffHop</span><span class="nav-menu-title">Outlier-Efficient Hopfield Layers for Large Transformer-Based Models</span><span class="nav-menu-venue">ICML 2024</span></a></li>
+          </ul>
+        </div></nav>
+      <a class="header-paper" href="https://arxiv.org/pdf/2404.03828">Read paper <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="main">
+      <section class="hero" aria-labelledby="paper-title">
+        <div class="paper-meta"><span>Research paper</span><span class="meta-divider" aria-hidden="true"></span><a href="https://proceedings.mlr.press/v235/hu24a.html">ICML 2024 · PMLR 235</a></div>
+        <h1 id="paper-title">Outlier-Efficient Hopfield Layers for Large <span class="nw">Transformer-Based</span> Models</h1>
+        <p class="hero-deck">An <span class="nw">associative-memory</span> account of <span class="nw">outlier-efficient</span> attention.</p>
+        <div class="resource-links">
+          <a class="button primary" href="https://arxiv.org/pdf/2404.03828">Read the paper <span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="https://github.com/MAGICS-LAB/OutEffHop">View code <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://proceedings.mlr.press/v235/hu24a.html">PMLR <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://huggingface.co/collections/magicslabnu/outeffhop-6610fcede8d2cda23009a98f">Models <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+      <section class="author-band" aria-labelledby="author-heading">
+        <h2 id="author-heading">Authors</h2>
+        <div class="authors"><span class="nw">Jerry <span class="nw">Yao-Chieh</span> Hu<sup aria-label="Northwestern University, Computer Science; equal contribution">1,*</sup></span><span class="nw"><span class="nw">Pei-Hsuan</span> Chang<sup aria-label="National Taiwan University; equal contribution">2,*</sup></span><span class="nw">Haozheng Luo<sup aria-label="Northwestern University, Computer Science; equal contribution">1,*</sup></span><span class="nw"><span class="nw">Hong-Yu</span> Chen<sup aria-label="National Taiwan University">2</sup></span><span class="nw">Weijian Li<sup aria-label="Northwestern University, Computer Science">1</sup></span><span class="nw"><span class="nw">Wei-Po</span> Wang<sup aria-label="National Taiwan University">2</sup></span><span class="nw">Han Liu<sup aria-label="Northwestern University, Computer Science; Northwestern University, Statistics and Data Science">1,3</sup></span></div>
+        <p class="author-note"><span aria-hidden="true">*</span> Equal contribution.</p>
+      </section>
+      <section class="affiliation-band" aria-labelledby="affiliation-heading">
+        <h2 id="affiliation-heading">Affiliations</h2>
+        <ul class="affiliations"><li><span class="aff-logo"><img src="../assets/logos/northwestern.svg" alt="Northwestern University logo" loading="lazy" decoding="async"></span><span class="aff-name"><sup>1</sup>Department of Computer Science, Northwestern University</span></li><li><span class="aff-name"><sup>2</sup>Department of Physics, National Taiwan University</span></li><li><span class="aff-logo"><img src="../assets/logos/northwestern.svg" alt="Northwestern University logo" loading="lazy" decoding="async"></span><span class="aff-name"><sup>3</sup>Department of Statistics and Data Science, Northwestern University</span></li></ul>
+      </section>
+      <section id="motivation" class="motivation-section" aria-labelledby="motivation-heading">
+        <div class="reading-intro">
+          <div class="section-label"><span class="section-number">01</span><h2 id="motivation-heading">Motivation</h2></div>
+          <div class="prose">
+            <p class="lead">Softmax cannot assign zero probability. Large models learn to park attention on tokens that carry little information, and the cost shows up as activation outliers.</p>
+            <p>When a token's representation already has enough information, the best attention update is close to zero. Prior work observed that attention heads approximate this no-update behavior by concentrating on <span class="nw">low-information</span> tokens such as delimiters, punctuation, or background patches in ViT. The paper calls these <em>no-op</em> outliers.</p>
+            <p>To make that concentration possible, the logits \(\mathbf{Q}\mathbf{K}^{\top}\) must span a wide range. Because softmax never reaches exact zero, gradients keep reinforcing the pattern during training. The resulting outliers make 8-bit quantization harder.</p>
+          </div>
+        </div>
+        <div class="observation-layout">
+          <div class="observation-copy"><h3>Give no-op patterns a place to go</h3><p>OutEffHop reads attention as memory retrieval in a modern Hopfield model. Stored patterns that are unrelated to the query are mapped to a single <span class="nw">no-op</span> memory \(\Omega\) at zero energy.</p><p>A relevant query descends to its nearest stored pattern. A query that matches nothing settles at the <span class="nw">zero-energy</span> point, which contributes nothing to the retrieved output.</p><p class="evidence-label">Figure 1 · conceptual energy landscape<br>Op memories \(\boldsymbol{\xi}_\mu\) and the no-op memory \(\Omega\)</p></div>
+          <figure class="paper-figure"><a class="figure-image compact-figure" href="assets/energy-landscape.png" aria-label="Open the energy landscape figure at full size"><img src="assets/energy-landscape.png" width="954" height="716" alt="Figure 1: energy of a physical system over configuration space. Op memories xi 1 through xi M sit at local minima of a colored energy surface. An op query descends into a local minimum; a no-op query descends to the zero-energy no-op memory Omega at either side." loading="lazy"></a><figcaption>Visualization of the <span class="nw">Outlier-Efficient</span> Hopfield Model, Figure 1 of the paper. <a href="https://arxiv.org/pdf/2404.03828#page=2">Source ↗</a></figcaption></figure>
+        </div>
+      </section>
+      <section id="methodology" class="method-section" aria-labelledby="method-heading">
+        <div class="reading-intro method-intro-grid"><div class="section-label"><span class="section-number">02</span><h2 id="method-heading">Methodology</h2></div>
+        <div class="method-intro prose"><p class="lead">Add one dimension that classifies memories as <span class="nw">no-op</span>, then derive the retrieval rule from the new energy.</p><p>Modern Hopfield models retrieve a memory as an expectation of stored patterns under \(\operatorname{Softmax}(\beta\,\Xi^{\top}\mathbf{x})\). A single retrieval step of that model is ordinary attention. OutEffHop changes the energy function so that one retrieval step becomes \(\operatorname{Softmax}_1\) attention, which can place probability mass on nothing.</p></div></div>
+        <ol class="method-steps">
+          <li>
+            <div class="step-copy"><span class="step-index">01 /</span><h3><span class="nw">No-op</span> classification</h3><p>Queries and memories gain an extra coordinate. Memories marked as <span class="nw">no-op</span> are mapped to one class vector \(\Omega\), whose inner product with every query is zero.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="No-op memory class vector">
+              \[
+                \Omega = (\underbrace{0,\ldots,0}_{d},\,C),
+                \qquad \langle \Omega, \bar{\mathbf{x}} \rangle = 0 .
+              \]
+            </div>
+          </li>
+          <li>
+            <div class="step-copy"><span class="step-index">02 /</span><h3><span class="nw">Outlier-efficient</span> energy</h3><p>The energy uses a refined <span class="nw">log-sum-exp</span>. The extra term \(+1\) is the contribution of \(\Omega\), which creates a <span class="nw">zero-energy</span> point.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="Outlier-efficient Hopfield energy">
+              \[
+                \begin{aligned}
+                \mathcal{H}(\mathbf{x}) = &-\frac{1}{\beta}\log\Bigl(\sum_{\mu=1}^{M} e^{\beta\langle \boldsymbol{\xi}_\mu,\mathbf{x}\rangle} + 1\Bigr) \\
+                &+ \tfrac12\langle\mathbf{x},\mathbf{x}\rangle + \mathrm{const}.
+                \end{aligned}
+              \]
+            </div>
+          </li>
+          <li>
+            <div class="step-copy"><span class="step-index">03 /</span><h3>Retrieval dynamics</h3><p>A standard <span class="nw">concave-convex</span> derivation gives an update that monotonically decreases \(\mathcal{H}\) (Lemma 2.1). One step of this update is \(\operatorname{Softmax}_1\) attention.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="OutEffHop retrieval dynamics">
+              \[
+                \begin{aligned}
+                \mathbf{x}_{t+1} &= \Xi\,\operatorname{Softmax}_1\!\bigl(\beta\,\Xi^{\top}\mathbf{x}_t\bigr), \\
+                \operatorname{Softmax}_1(\mathbf{z})_\mu &= \frac{e^{z_\mu}}{1+\sum_{\nu} e^{z_\nu}} .
+                \end{aligned}
+              \]
+            </div>
+          </li>
+          <li>
+            <div class="step-copy"><span class="step-index">04 /</span><h3>The OutEffHop layer</h3><p>Mapping queries and memories through learned projections yields a layer that replaces attention in transformers and Hopfield layers in Hopfield networks.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="OutEffHop layer">
+              \[
+                \mathbf{Z} = \operatorname{Softmax}_1\!\bigl(\beta\,\mathbf{R}\mathbf{W}_Q\mathbf{W}_K^{\top}\mathbf{Y}^{\top}\bigr)\,\mathbf{Y}\mathbf{W}_K\mathbf{W}_V .
+              \]
+            </div>
+          </li>
+        </ol>
+        <details class="math-notation">
+          <summary>Notation</summary>
+          <p>\(\mathbf{x}\in\mathbb{R}^d\) is a query pattern and \(\Xi=[\boldsymbol{\xi}_1,\ldots,\boldsymbol{\xi}_M]\) holds the stored memory patterns; \(\bar{\mathbf{x}}\) is the query with the extra coordinate set to zero. \(\beta\) is the inverse temperature and \(C\) is a constant. In the layer, \(\mathbf{R}\) is the raw query input, \(\mathbf{Y}\) the raw memory input, and \(\mathbf{W}_Q,\mathbf{W}_K,\mathbf{W}_V\) are learned projections; setting \(\mathbf{R}=\mathbf{Y}\) recovers <span class="nw">self-attention</span>. <a href="https://arxiv.org/pdf/2404.03828#page=3">See Sections 2.2–2.4 of the paper.</a></p>
+        </details>
+        <details class="research-details">
+          <summary>Layer variants in the paper</summary>
+          <div class="prose"><p>Like earlier Hopfield layers, OutEffHop has several configurations. In <em>memory retrieval</em> mode the projections are identities and nothing is learned. <em>OutEffHop</em> learns all three projections and serves as a drop-in attention replacement. <em>OutEffHopPooling</em> uses a learnable query to search static prototype patterns. <em>OutEffHopLayer</em> stores patterns in the learned key and value matrices, so keys and values do not depend on the input.</p><p>Giving each no-op pattern its own class vector instead of a shared \(\Omega\) generalizes the denominator from \(1\) to \(K\), which yields \(\operatorname{Softmax}_K\). <a href="https://arxiv.org/pdf/2404.03828#page=4">Read Section 2.4.</a></p></div>
+        </details>
+      </section>
+      <section id="results" class="results-section" aria-labelledby="results-heading">
+        <div class="wide-section-heading"><div class="section-label"><span class="section-number">03</span><h2 id="results-heading">Selected results</h2></div><span class="section-aside">Language, vision &amp; time series</span></div>
+        <div class="result-highlights">
+          <article>
+            <p class="metric-label">BERT-base <span>Average kurtosis · pretraining from scratch</span></p>
+            <div class="metric-values"><span class="metric-before">418.724</span><span class="metric-arrow" aria-hidden="true">→</span><strong>26.564</strong></div>
+            <div class="metric-context"><h3>93.66% lower average kurtosis</h3><p>Vanilla attention → OutEffHop</p></div>
+          </article>
+          <article>
+            <p class="metric-label">OPT-125m <span>W8A8 perplexity</span></p>
+            <div class="metric-values"><span class="metric-before">42.012</span><span class="metric-arrow" aria-hidden="true">→</span><strong>16.429</strong></div>
+            <div class="metric-context"><h3>60.89% lower perplexity after quantization</h3><p>Vanilla attention → OutEffHop</p></div>
+          </article>
+        </div>
+        <div class="subsection-heading"><h3>Maximum infinity norm during pretraining</h3><p>Each row tracks the largest activation in one layer as training proceeds. The left column compares OutEffHop with vanilla attention. The other two columns apply \(\operatorname{Softmax}_1\) on top of Clipped Softmax and Gated Attention. The vertical scales differ between panels.</p></div>
+        <figure class="paper-figure"><a class="figure-image" href="assets/max-inf-norm.png" aria-label="Open the maximum infinity norm figure at full size"><img src="assets/max-inf-norm.png" width="1480" height="936" alt="Figure 2: twelve line plots of maximum infinity norm against training step for BERT, OPT, ViT and STanHop-Net. In each panel a grey baseline curve is compared with a red OutEffHop curve. For BERT and OPT with vanilla attention the red curve stays far below the grey curve; the gaps in the other panels are smaller." loading="lazy"></a><figcaption><span>Figure 2.</span> Layer 10 of BERT, OPT, and ViT, and layer 9 of <span class="nw">STanHop-Net</span>. Grey: baseline; red: with OutEffHop. <a href="https://arxiv.org/pdf/2404.03828#page=7">Source ↗</a></figcaption></figure>
+        <div class="subsection-heading"><h3>Outliers and quantization across four models</h3><p>Each model is trained from scratch with the attention (or Hopfield) layer replaced. OutEffHop reduces both outlier metrics relative to vanilla attention in all four models, and combining it with Clipped Softmax or Gated Attention usually reduces them further. Clipped OutEffHop on OPT is the exception, in line with earlier reports that Clipped Softmax performs poorly on OPT.</p></div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Outlier and quantization results for four models, scroll horizontally on small screens"><table><caption>Outlier efficiency and quantization · Table 1</caption><thead><tr><th scope="col">Model</th><th scope="col">Method</th><th scope="col">Avg. kurtosis <span aria-label="lower is better">↓</span></th><th scope="col">Max inf. norm <span aria-label="lower is better">↓</span></th><th scope="col">FP16<sup>*</sup></th><th scope="col">W8A8<sup>*</sup></th></tr></thead><tbody>
+            <tr><th scope="rowgroup" rowspan="6">BERT</th><td>Vanilla</td><td>418.724 ± 0.814</td><td>255.859 ± 0.004</td><td>6.237 ± 0.001</td><td>7.154 ± 0.009</td></tr>
+            <tr class="ours"><td>OutEffHop</td><td>26.564 ± 0.022</td><td>33.618 ± 0.000</td><td>6.209 ± 0.001</td><td>6.295 ± 0.001</td></tr>
+            <tr><td>Clipped Softmax</td><td>14.210 ± 0.003</td><td>33.619 ± 0.001</td><td>6.118 ± 0.002</td><td>6.189 ± 0.001</td></tr>
+            <tr><td>Clipped OutEffHop</td><td>11.839 ± 0.001</td><td>30.107 ± 0.001</td><td>6.133 ± 0.000</td><td>6.199 ± 0.001</td></tr>
+            <tr><td>Gated Attention</td><td>17.779 ± 0.014</td><td>34.082 ± 0.000</td><td>6.230 ± 0.001</td><td>6.299 ± 0.003</td></tr>
+            <tr><td>Gated OutEffHop</td><td>15.625 ± 0.012</td><td>32.777 ± 0.000</td><td>6.214 ± 0.001</td><td>6.279 ± 0.003</td></tr>
+            <tr class="model-divider"><th scope="rowgroup" rowspan="6">OPT</th><td>Vanilla</td><td>23341.513 ± 27.363</td><td>92.786 ± 0.002</td><td>15.974 ± 0.001</td><td>42.012 ± 19.514</td></tr>
+            <tr class="ours"><td>OutEffHop</td><td>21.542 ± 0.000</td><td>13.302 ± 0.001</td><td>15.916 ± 0.002</td><td>16.429 ± 0.013</td></tr>
+            <tr><td>Clipped Softmax</td><td>9731.110 ± 0.000</td><td>43.803 ± 0.000</td><td>16.042 ± 0.000</td><td>30.825 ± 0.330</td></tr>
+            <tr><td>Clipped OutEffHop</td><td>24127.332 ± 0.000</td><td>67.602 ± 0.000</td><td>16.118 ± 0.000</td><td>29.269 ± 0.184</td></tr>
+            <tr><td>Gated Attention</td><td>90.321 ± 0.000</td><td>13.704 ± 0.000</td><td>15.677 ± 0.000</td><td>16.236 ± 0.074</td></tr>
+            <tr><td>Gated OutEffHop</td><td>11.449 ± 0.000</td><td>7.568 ± 0.000</td><td>15.751 ± 0.000</td><td>16.148 ± 0.005</td></tr>
+            <tr class="model-divider"><th scope="rowgroup" rowspan="6">ViT</th><td>Vanilla</td><td>37.104 ± 0.000</td><td>272.198 ± 0.000</td><td>76.810 ± 0.000</td><td>74.935 ± 0.046</td></tr>
+            <tr class="ours"><td>OutEffHop</td><td>31.601 ± 0.001</td><td>249.163 ± 0.000</td><td>76.788 ± 0.000</td><td>76.313 ± 0.012</td></tr>
+            <tr><td>Clipped Softmax</td><td>33.868 ± 0.00</td><td>257.613 ± 0.00</td><td>76.612 ± 0.000</td><td>75.179 ± 0.013</td></tr>
+            <tr><td>Clipped OutEffHop</td><td>24.642 ± 0.000</td><td>196.199 ± 0.001</td><td>76.871 ± 0.001</td><td>76.083 ± 0.007</td></tr>
+            <tr><td>Gated Attention</td><td>45.145 ± 0.864</td><td>269.279 ± 1.426</td><td>69.922 ± 2.436</td><td>67.479 ± 1.447</td></tr>
+            <tr><td>Gated OutEffHop</td><td>21.979 ± 0.254</td><td>60.169 ± 1.153</td><td>74.089 ± 2.585</td><td>73.958 ± 3.126</td></tr>
+            <tr class="model-divider"><th scope="rowgroup" rowspan="6"><span class="nw">STanHop-Net</span></th><td>Vanilla</td><td>2.954 ± 0.063</td><td>5.048 ± 0.232</td><td>0.360 ± 0.008</td><td>0.362 ± 0.000</td></tr>
+            <tr class="ours"><td>OutEffHop</td><td>2.897 ± 0.011</td><td>4.565 ± 0.209</td><td>0.360 ± 0.004</td><td>0.355 ± 0.000</td></tr>
+            <tr><td>Clipped Softmax</td><td>2.995 ± 0.05</td><td>4.890 ± 0.17</td><td>0.553 ± 0.03</td><td>0.591 ± 0.000</td></tr>
+            <tr><td>Clipped OutEffHop</td><td>2.864 ± 0.06</td><td>4.145 ± 0.23</td><td>0.506 ± 0.05</td><td>0.517 ± 0.000</td></tr>
+            <tr><td>Gated Attention</td><td>2.487 ± 0.017</td><td>4.277 ± 0.163</td><td>0.380 ± 0.006</td><td>0.375 ± 0.000</td></tr>
+            <tr><td>Gated OutEffHop</td><td>2.459 ± 0.041</td><td>4.240 ± 0.155</td><td>0.376 ± 0.007</td><td>0.367 ± 0.000</td></tr>
+          </tbody></table></div>
+        <div class="result-notes"><p><sup>*</sup> FP16 and W8A8 report perplexity for BERT and OPT (lower is better), <span class="nw">top-1</span> accuracy for ViT (higher is better; ViT uses FP32 before quantization), and MSE for <span class="nw">STanHop-Net</span> (lower is better). Mean ± standard deviation over three seeds. BERT kurtosis averages FFN and LayerNorm outputs; the other models average every output component. The OPT vanilla W8A8 perplexity has a large standard deviation (±19.514). Parameter counts are 108.9M–109M for BERT, 124.06M–124.07M for OPT, 22.03M–22.04M for ViT, and 35.13M–35.15M for <span class="nw">STanHop-Net</span>.</p><a class="text-link" href="https://arxiv.org/pdf/2404.03828#page=6">Table 1 &amp; protocol <span aria-hidden="true">↗</span></a></div>
+        <div class="subsection-heading"><h3>Where the reduction happens inside BERT</h3><p>The left four panels track FFN outputs in layers 3, 6, 9, and 10. The reduction is small in early layers and grows in later ones. The right four panels break layer 10 into components. OutEffHop suppresses the outliers in both FFN layers but not in the first residual LayerNorm, which the paper lists as a limitation.</p></div>
+        <figure class="paper-figure"><a class="figure-image" href="assets/bert-layers.png" aria-label="Open the BERT layer and component plots at full size"><img src="assets/bert-layers.png" width="1518" height="478" alt="Figures 3 and 4: eight line plots of maximum infinity norm against training step for BERT. Left: FFN outputs of layers 3, 6, 9 and 10. Right: attention layer, first residual LayerNorm, FFN-1 and FFN-2 in layer 10. The red OutEffHop curve is far below the grey vanilla curve in layers 9 and 10 and in both FFN components, but above it for the first residual LayerNorm." loading="lazy"></a><figcaption><span>Figures 3 and 4.</span> Grey: vanilla softmax; red: OutEffHop. <a href="https://arxiv.org/pdf/2404.03828#page=7">Source ↗</a></figcaption></figure>
+        <div class="subsection-heading"><h3>Inside a Hopfield network</h3><p><span class="nw">STanHop-Net</span> is a Hopfield-based model for multivariate time series. The paper swaps its Hopfield layer for dense, sparse, generalized sparse (GSH), and OutEffHop variants. Across ETTh1, ETTm1, and WTH at five horizons each, OutEffHop ranks first or second in outlier efficiency in 25 of 30 settings. The ETTh1 rows are shown below.</p></div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="STanHop-Net ETTh1 outlier results, scroll horizontally on small screens"><table><caption>Hopfield layer variants on ETTh1 · Table 2</caption><thead><tr><th scope="col" rowspan="2">Horizon</th><th scope="colgroup" colspan="2">Hopfield</th><th scope="colgroup" colspan="2">SparseHopfield</th><th scope="colgroup" colspan="2"><span class="nw">STanHop-Net</span> (GSH)</th><th scope="colgroup" colspan="2">OutEffHop</th></tr><tr><th scope="col">Kurt. ↓</th><th scope="col">Max ↓</th><th scope="col">Kurt. ↓</th><th scope="col">Max ↓</th><th scope="col">Kurt. ↓</th><th scope="col">Max ↓</th><th scope="col">Kurt. ↓</th><th scope="col">Max ↓</th></tr></thead><tbody>
+          <tr><th scope="row">24</th><td>2.954</td><td>5.048</td><td>3.311</td><td>4.954</td><td>3.269</td><td>4.947</td><td class="best">2.897</td><td class="best">4.565</td></tr>
+          <tr><th scope="row">48</th><td>2.968</td><td>4.969</td><td>3.295</td><td>4.749</td><td>3.271</td><td>4.644</td><td class="best">2.965</td><td class="best">4.570</td></tr>
+          <tr><th scope="row">168</th><td>2.545</td><td>3.923</td><td>3.149</td><td>4.348</td><td>3.093</td><td>4.160</td><td class="best">2.526</td><td class="best">3.865</td></tr>
+          <tr><th scope="row">336</th><td>2.436</td><td>3.536</td><td>3.071</td><td>4.156</td><td>3.043</td><td>4.248</td><td class="best">2.433</td><td class="best">3.416</td></tr>
+          <tr><th scope="row">720</th><td class="best">2.443</td><td>3.266</td><td>3.030</td><td>4.179</td><td>3.062</td><td>4.238</td><td>2.450</td><td class="best">3.218</td></tr>
+        </tbody></table></div>
+        <p class="section-source">Average kurtosis and maximum infinity norm over 12 decoder layers, averaged over 10 runs; standard deviations and MSE/MAE are in the paper. The lowest value in each metric is in bold. Outlier efficiency comes with some loss in prediction error: across the three datasets, OutEffHop's MSE is higher than the best baseline in 14 of 15 settings. <a href="https://arxiv.org/pdf/2404.03828#page=9">See Table 2 for ETTm1 and WTH ↗</a></p>
+      </section>
+      <section id="theory" class="reading-section evaluation-section" aria-labelledby="theory-heading">
+        <div class="section-label"><span class="section-number">04</span><h2 id="theory-heading">Theory &amp; scope</h2></div>
+        <div class="prose"><p>The paper shows that the new energy keeps the standard properties of modern Hopfield models. Each result is stated under the assumptions in Section 3.</p>
+          <dl class="protocol"><div><dt>Convergence</dt><dd>Limit points of the retrieval dynamics are stationary points of \(\mathcal{H}\) (Theorem 3.1).</dd></div><div><dt>Retrieval error</dt><dd>A lower upper bound on retrieval error than the original modern Hopfield model (Theorem 3.2).</dd></div><div><dt>Memory capacity</dt><dd>Exponential in pattern dimension, with a lower bound at least that of the original model (Theorem 3.3).</dd></div><div><dt>Generalization</dt><dd>The bound scales as \(N^{-1/2}\) up to log factors in sample size and logarithmically in \(d\) and \(M\); it does not depend on sequence length (Theorem 3.4).</dd></div></dl>
+          <p>The experiments train BERT-base (109M) and OPT-125m on BookCorpus and Wiki40B/en, ViT-S/16 on <span class="nw">ImageNet-1k</span>, and <span class="nw">STanHop-Net</span> on ETTh1, with ETTm1 and WTH added for the Hopfield-layer comparison, following the protocol of Bondarenko et al. (2023). OutEffHop does not address outliers that originate in LayerNorm, which appear to arise from a different mechanism than the attention outliers studied here.</p><a class="text-link" href="https://arxiv.org/pdf/2404.03828#page=5">Theory, experiments &amp; limitations ↗</a>
+        </div>
+      </section>
+      <section id="citation" class="reading-section citation" aria-labelledby="citation-heading">
+        <div class="section-label"><span class="section-number">05</span><h2 id="citation-heading">Citation</h2></div>
+        <div class="citation-content"><div class="citation-top"><span>BibTeX</span><div class="citation-actions"><a href="citation.bib" download>Download <span aria-hidden="true">↓</span></a><button type="button" id="copy-citation">Copy BibTeX</button></div></div><pre><code id="bibtex">@InProceedings{pmlr-v235-hu24a,
+  title     = {Outlier-Efficient Hopfield Layers for Large Transformer-Based Models},
+  author    = {Hu, Jerry Yao-Chieh and Chang, Pei-Hsuan and Luo, Haozheng and
+               Chen, Hong-Yu and Li, Weijian and Wang, Wei-Po and Liu, Han},
+  booktitle = {Proceedings of the 41st International Conference on Machine Learning},
+  pages     = {19123--19152},
+  year      = {2024},
+  volume    = {235},
+  series    = {Proceedings of Machine Learning Research},
+  publisher = {PMLR},
+  url       = {https://proceedings.mlr.press/v235/hu24a.html}
+}</code></pre><p class="copy-status" id="copy-status" role="status" aria-live="polite"></p></div>
+      </section>
+    </main>
+    <footer><div class="footer-top"><a class="wordmark" href="./">OutEffHop</a><p>Outlier-Efficient Hopfield Layers for Large <span class="nw">Transformer-Based</span> Models</p><a class="text-link" href="https://arxiv.org/abs/2404.03828">arXiv <span aria-hidden="true">↗</span></a></div><div class="footer-bottom"><span>ICML 2024</span><a href="https://github.com/oasis-research/oasis-research.github.io">Website source</a></div></footer>
+  </div>
+</body>
+</html>

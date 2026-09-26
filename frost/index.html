@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171717">
+  <title>FROST · Filtering Reasoning Outliers with Attention for Efficient Reasoning</title>
+  <meta name="description" content="FROST replaces Softmax with Softmax1 and fine-tunes reasoning models so that low-attention reasoning steps are suppressed, giving shorter reasoning traces. ICLR 2026.">
+  <meta property="og:title" content="FROST · Filtering Reasoning Outliers with Attention for Efficient Reasoning">
+  <meta property="og:description" content="Attention-aware pruning of uncritical reasoning steps in large reasoning models. ICLR 2026.">
+  <meta property="og:type" content="website">
+  <meta name="citation_title" content="FROST: Filtering Reasoning Outliers with Attention for Efficient Reasoning">
+  <meta name="citation_author" content="Haozheng Luo">
+  <meta name="citation_author_institution" content="Northwestern University">
+  <meta name="citation_author_institution" content="RTX Technology Research Center">
+  <meta name="citation_author" content="Zhuolin Jiang">
+  <meta name="citation_author_institution" content="RTX Technology Research Center">
+  <meta name="citation_author" content="Md Zahid Hasan">
+  <meta name="citation_author_institution" content="RTX Technology Research Center">
+  <meta name="citation_author_institution" content="Iowa State University">
+  <meta name="citation_author" content="Yan Chen">
+  <meta name="citation_author_institution" content="Northwestern University">
+  <meta name="citation_author" content="Soumalya Sarkar">
+  <meta name="citation_author_institution" content="RTX Technology Research Center">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="The Fourteenth International Conference on Learning Representations">
+  <meta name="citation_arxiv_id" content="2601.19001">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2601.19001">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23171717'/%3E%3Cpath d='M23 48V16h20M23 32h16' fill='none' stroke='white' stroke-width='5'/%3E%3C/svg%3E">
+  <link rel="canonical" href="https://oasis-research.github.io/frost/">
+  <meta property="og:url" content="https://oasis-research.github.io/frost/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;550;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="../styles.css?v=15">
+  <style>
+    /* Authors without a verified profile link keep the linked names' spacing. */
+    .authors > span { white-space: nowrap; }
+    .results-table th, .results-table td { padding-inline: 12px; }
+    .results-table thead tr + tr th { padding-top: 0; }
+    .results-table thead tr + tr th:first-child { padding-left: 12px; }
+    .results-table thead th[colspan] { padding-bottom: 6px; }
+    .results-table tbody th, .results-table thead th:first-child { padding-left: 0; }
+    .results-table .group-row { border-top: 1px solid var(--line); }
+    .results-table .group-row th { padding: 18px 0 4px; font-size: 12px; color: var(--muted); }
+    .results-table .ours th { font-weight: 550; }
+  </style>
+  <script src="../assets/vendor/katex/katex.min.js" defer></script>
+  <script src="../assets/vendor/katex/contrib/auto-render.min.js" defer></script>
+  <script src="../script.js?v=4" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-frame">
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="FROST home">FROST<span class="wordmark-note">ICLR 2026</span></a>
+      <nav aria-label="Main navigation"><a href="#motivation">Motivation</a><a href="#methodology">Methodology</a><a href="#results">Results</a><a href="#citation">Citation</a>
+        <div class="nav-menu">
+          <button type="button" class="nav-menu-toggle" aria-expanded="false" aria-controls="related-work">Related work <span class="nav-caret" aria-hidden="true">▾</span></button>
+          <ul class="nav-menu-list" id="related-work">
+            <li><a href="../"><span class="nav-menu-name">OASIS</span><span class="nav-menu-title">Attention Sinks and Outliers in Attention Residuals</span><span class="nav-menu-venue">NeurIPS 2026</span></a></li>
+            <li><a href="./" aria-current="page"><span class="nav-menu-name">FROST</span><span class="nav-menu-title">Filtering Reasoning Outliers with Attention for Efficient Reasoning</span><span class="nav-menu-venue">ICLR 2026</span></a></li>
+            <li><a href="../germ/"><span class="nav-menu-name">GERM</span><span class="nav-menu-title">Fast and Low-Cost Genomic Foundation Models via Outlier Removal</span><span class="nav-menu-venue">ICML 2025</span></a></li>
+            <li><a href="../outeffhop/"><span class="nav-menu-name">OutEffHop</span><span class="nav-menu-title">Outlier-Efficient Hopfield Layers for Large Transformer-Based Models</span><span class="nav-menu-venue">ICML 2024</span></a></li>
+          </ul>
+        </div></nav>
+      <a class="header-paper" href="https://arxiv.org/pdf/2601.19001">Read paper <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="main">
+      <section class="hero" aria-labelledby="paper-title">
+        <div class="paper-meta"><span>Research paper</span><span class="meta-divider" aria-hidden="true"></span><a href="https://openreview.net/forum?id=a9dngZLqGS">ICLR 2026</a></div>
+        <h1 id="paper-title">FROST: Filtering Reasoning Outliers with Attention for Efficient Reasoning</h1>
+        <p class="hero-deck">Shorter reasoning by suppressing <span class="nw">low-attention</span> steps.</p>
+        <div class="resource-links">
+          <a class="button primary" href="https://arxiv.org/pdf/2601.19001">Read the paper <span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="https://github.com/robinzixuan/FROST">View code <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://openreview.net/forum?id=a9dngZLqGS">OpenReview <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://arxiv.org/abs/2601.19001">arXiv <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+      <section class="author-band" aria-labelledby="author-heading">
+        <h2 id="author-heading">Authors</h2>
+        <div class="authors"><span>Haozheng Luo<sup aria-label="Northwestern University; RTX Technology Research Center; work done during an internship at RTRC">1,2,*</sup></span><span>Zhuolin Jiang<sup aria-label="RTX Technology Research Center">2</sup></span><span>Md Zahid Hasan<sup aria-label="RTX Technology Research Center; Iowa State University; work done during an internship at RTRC">2,3,*</sup></span><span>Yan Chen<sup aria-label="Northwestern University">1</sup></span><span>Soumalya Sarkar<sup aria-label="RTX Technology Research Center">2</sup></span></div>
+        <p class="author-note"><span aria-hidden="true">*</span> Work carried out at the RTX Technology Research Center during a Summer 2025 internship.</p>
+      </section>
+      <section class="affiliation-band" aria-labelledby="affiliation-heading">
+        <h2 id="affiliation-heading">Affiliations</h2>
+        <ul class="affiliations"><li><span class="aff-logo"><img src="../assets/logos/northwestern.svg" alt="Northwestern University logo" loading="lazy" decoding="async"></span><span class="aff-name"><sup>1</sup>Northwestern University</span></li><li><span class="aff-logo"><img src="../assets/logos/rtx.svg" alt="RTX logo" loading="lazy" decoding="async"></span><span class="aff-name"><sup>2</sup>RTX Technology Research Center</span></li><li><span class="aff-logo"><img src="../assets/logos/iowa-state.svg" alt="Iowa State University logo" loading="lazy" decoding="async"></span><span class="aff-name"><sup>3</sup>Iowa State University</span></li></ul>
+      </section>
+      <section id="motivation" class="motivation-section" aria-labelledby="motivation-heading">
+        <div class="reading-intro">
+          <div class="section-label"><span class="section-number">01</span><h2 id="motivation-heading">Motivation</h2></div>
+          <div class="prose">
+            <p class="lead">Large reasoning models often keep reasoning after the useful work is done. Many of those extra steps receive little attention when the model produces its answer.</p>
+            <p>Much of the extra length comes from repeated <span class="nw">self-verification</span>. Existing efficient-reasoning methods either prune at the token level, which can cut into a step that is naturally a whole sentence, or refine reasoning paths iteratively at the sentence level, which adds training cost and latency.</p>
+            <p>The paper looks at how much attention each sentence of a reasoning trace sends to the end of thinking. It calls sentences with low attention and a negligible contribution to the final answer <em>reasoning outliers</em>, and treats them like the attention outliers studied in earlier work.</p>
+          </div>
+        </div>
+        <figure class="paper-figure"><a class="figure-image compact-figure" href="assets/example.png" aria-label="Open the GPT-oss-20B example at full size"><img src="assets/example.png" width="2460" height="615" alt="Figure 1: the same complex-number question answered by the original GPT-oss-20B model and by FROST. The original response is long and contains repeated restarts and checks; the FROST response is much shorter and reaches the answer 540." loading="lazy"></a><figcaption><span>Figure 1.</span> The same question answered by the original <span class="nw">GPT-oss-20B</span> model (left) and after FROST (right). Example from the paper. <a href="https://arxiv.org/pdf/2601.19001#page=2">Source ↗</a></figcaption></figure>
+        <div class="subsection-heading"><h3>A few sentences carry most of the attention</h3><p>For a sample GSM8K question, the paper splits a <span class="nw">Phi-4-Reasoning</span> trace into sentences and sums, for each sentence, the attention weight it contributes to the <code>&lt;/think&gt;</code> token. In deeper layers, a few sentences stand out while most contribute almost nothing. These are often checks or repetitions of earlier steps.</p></div>
+        <figure class="paper-figure"><a class="figure-image compact-figure" href="assets/observation-distribution.png" aria-label="Open the per-sentence attention plots at full size"><img src="assets/observation-distribution.png" width="1956" height="404" alt="Figure 3: bar charts of the summed attention from each of 24 sentences to the end-of-thinking token, for three layers of Phi-4-Reasoning. In the shallowest layer contributions are spread out; in the two deeper layers the final sentence dominates and most other sentences are close to zero." loading="lazy"></a><figcaption><span>Figure 3.</span> Summed attention from each sentence of the trace to <code>&lt;/think&gt;</code> in three layers of <span class="nw">Phi-4-Reasoning</span>. Original plots from the paper. <a href="https://arxiv.org/pdf/2601.19001#page=4">Read the observation ↗</a></figcaption></figure>
+      </section>
+      <section id="methodology" class="method-section" aria-labelledby="method-heading">
+        <div class="reading-intro method-intro-grid"><div class="section-label"><span class="section-number">02</span><h2 id="method-heading">Methodology</h2><a class="text-link section-link" href="assets/method.png">View figure <span aria-hidden="true">↗</span></a></div>
+        <div class="method-intro prose"><p class="lead">Swap the attention normalizer for one that can push small weights to zero, then briefly fine-tune.</p><p>FROST replaces \(\operatorname{Softmax}\) with \(\operatorname{Softmax}_1\) in the attention layers of a pretrained reasoning model. It then runs supervised fine-tuning on math problems with worked solutions, so the model adapts to the new normalizer. LoRA keeps the update small.</p><p>Earlier uses of \(\operatorname{Softmax}_1\) for outlier removal needed training from scratch (OutEffHop) or <span class="nw">multi-step</span> continual learning (GERM). FROST starts from an existing checkpoint and needs only a short fine-tuning run.</p></div></div>
+        <figure class="paper-figure">
+          <a class="figure-image" href="assets/method.png" aria-label="Open the full-size FROST workflow figure"><img src="assets/method.png" width="1835" height="588" alt="FROST workflow. A large reasoning model's attention layer is changed from Softmax to Softmax1, which suppresses low-attention sentences. The model is then fine-tuned with SFT to produce an efficient reasoning model." loading="lazy"></a>
+          <figcaption><span>Figure 5.</span> FROST replaces the vanilla \(\operatorname{Softmax}\) with an <span class="nw">outlier-removal</span> layer based on \(\operatorname{Softmax}_1\), then applies SFT to adapt the model. Workflow figure from the paper.</figcaption>
+        </figure>
+        <ol class="method-steps">
+          <li>
+            <div class="step-copy"><span class="step-index">01 /</span><h3>Measure each step's contribution</h3><p>Split the trace into the question, the reasoning steps, and the answer. For each part, sum the attention its tokens send to the <code>&lt;/think&gt;</code> token:</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="Total attention from a trace component to the end-of-thinking token">
+              \[
+                W_{\text{trace}} = \sum_{t_i \in T_{\text{trace}}} a_{iA}.
+              \]
+            </div>
+          </li>
+          <li>
+            <div class="step-copy"><span class="step-index">02 /</span><h3>Add a null option to attention</h3><p>\(\operatorname{Softmax}_1\) adds one to the denominator, so attention can put little weight on every candidate. Low weights move toward zero while large weights remain.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="Softmax one">
+              \[
+                \operatorname{Softmax}_1(x_i) = \frac{\exp(x_i)}{\sum_{j}\exp(x_j) + 1}.
+              \]
+            </div>
+          </li>
+          <li>
+            <div class="step-copy"><span class="step-index">03 /</span><h3>Contract the tail at the sentence level</h3><p>With sentence scores \(s\) pooled from token scores and sentence attention \(\alpha=\sigma_1(s)\), the paper shows that the dominance ratio contracts by a factor \(\kappa\in(0,1)\) for heavy-tailed scores.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="Sentence-level tail contraction">
+              \[
+                \frac{\|\alpha\|_\infty}{\operatorname{median}(\alpha)}
+                \le \kappa \cdot \frac{\|s\|_\infty}{\operatorname{median}(s)}.
+              \]
+            </div>
+          </li>
+        </ol>
+        <details class="math-notation">
+          <summary>Notation</summary>
+          <p>\(a_{iA}\) is the attention weight from token \(t_i\) to the <code>&lt;/think&gt;</code> token, and \(T_{\text{trace}}\) is the set of tokens in one part of the trace. The sentence score \(s_i\) applies a monotone pooling operator, such as sum, mean, or max, to the token scores of sentence \(S_i\). \(\sigma_1\) is the \(\operatorname{Softmax}_1\) map over sentences. The contraction result is Theorem 5.1 and relies on Assumption 5.1. <a href="https://arxiv.org/pdf/2601.19001#page=6">See Section 5 of the paper.</a></p>
+        </details>
+        <div class="subsection-heading"><h3>What changes after FROST</h3><p>The paper compares one attention head in the last layer of <span class="nw">Phi-4-Reasoning</span> under vanilla attention and under FROST. It reports that attention to critical sentences is kept or strengthened, while the influence of reasoning outliers is reduced.</p></div>
+        <figure class="paper-figure"><a class="figure-image compact-figure" href="assets/observation-frost.png" aria-label="Open the before-and-after attention plots at full size"><img src="assets/observation-frost.png" width="1825" height="555" alt="Figure 4: summed attention from each sentence to the end-of-thinking token for head 15 in layer 40, under vanilla attention (left) and FROST (right). The last sentence has the largest weight in both; the maximum rises from about 0.024 to about 0.035 under FROST." loading="lazy"></a><figcaption><span>Figure 4.</span> Head 15, layer 40 of <span class="nw">Phi-4-Reasoning</span>: vanilla attention (left) and FROST (right). Note the different vertical scales. Original plots from the paper. <a href="https://arxiv.org/pdf/2601.19001#page=5">Source ↗</a></figcaption></figure>
+        <details class="research-details">
+          <summary>What the analysis explains</summary>
+          <div class="prose"><p>Theorem 5.2 bounds how much a sentence with attention at most \(\varepsilon\) can move the output distribution. The bound is \(\varepsilon\) times the product of the layers' operator-norm bounds, so it is \(O(\varepsilon)\) when those norms are roughly constant. Under the stated assumptions, sentences that receive little attention have little effect at inference.</p><p>The results assume properties of the \(\operatorname{Softmax}_1\) map, such as order preservation and tail contraction, and bounded values and operator norms. The experiments test the trained models directly. <a href="https://arxiv.org/pdf/2601.19001#page=6">Read Section 5 and its assumptions.</a></p></div>
+        </details>
+      </section>
+      <section id="results" class="results-section" aria-labelledby="results-heading">
+        <div class="wide-section-heading"><div class="section-label"><span class="section-number">03</span><h2 id="results-heading">Selected results</h2></div><span class="section-aside">Mathematical reasoning</span></div>
+        <div class="result-highlights">
+          <article>
+            <p class="metric-label"><span class="nw">Phi-4-Reasoning</span> <span>MATH500 · tokens per response</span></p>
+            <div class="metric-values"><span class="metric-before">1721.95</span><span class="metric-arrow" aria-hidden="true">→</span><strong>344.37</strong></div>
+            <div class="metric-context"><h3>80.00% fewer tokens</h3><p>Base model → FROST · Pass@1 0.5480 → 0.5980</p></div>
+          </article>
+          <article>
+            <p class="metric-label"><span class="nw">Phi-4-Reasoning</span> <span>AIME24 · activation tensors</span></p>
+            <div class="metric-values"><span class="metric-before">241.72</span><span class="metric-arrow" aria-hidden="true">→</span><strong>21.54</strong></div>
+            <div class="metric-context"><h3>91.09% lower average kurtosis</h3><p>Base model → FROST</p></div>
+          </article>
+        </div>
+        <div class="subsection-heading"><h3>Comparison with efficient reasoning methods</h3><p>FROST is compared with a prompt-based method (TALE), an <span class="nw">SFT-based</span> method (DRP), and two reinforcement-learning methods (SelfBudgeter and ThinkLess). FROST produces the shortest responses in most settings. It does not always reach the highest accuracy: TALE and DRP lead on some benchmarks, usually with much longer responses. The paper notes that FROST can occasionally prune a <span class="nw">low-attention</span> step that matters.</p></div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Main results table, scroll horizontally on small screens"><table class="results-table"><caption>Pass@1 and tokens per response (#Tk) · Table 1</caption><thead>
+          <tr><th scope="col" rowspan="2">Method</th><th scope="colgroup" colspan="2">GSM8K</th><th scope="colgroup" colspan="2">MATH500</th><th scope="colgroup" colspan="2">AIME24</th><th scope="colgroup" colspan="2">Minerva</th></tr>
+          <tr><th scope="col">Pass@1 <span aria-label="higher is better">↑</span></th><th scope="col">#Tk <span aria-label="lower is better">↓</span></th><th scope="col">Pass@1 ↑</th><th scope="col">#Tk ↓</th><th scope="col">Pass@1 ↑</th><th scope="col">#Tk ↓</th><th scope="col">Pass@1 ↑</th><th scope="col">#Tk ↓</th></tr>
+        </thead><tbody>
+          <tr class="group-row"><th scope="colgroup" colspan="9"><span class="nw">Phi-4-Reasoning</span></th></tr>
+          <tr><th scope="row">Base</th><td>0.9242</td><td>1017.70</td><td>0.5480</td><td>1721.95</td><td>0.0667</td><td>1017.70</td><td>0.2500</td><td>1898.86</td></tr>
+          <tr><th scope="row">TALE</th><td>0.9500</td><td>1716.60</td><td>0.5800</td><td>1874.43</td><td>0.2900</td><td>2069.97</td><td>0.2627</td><td>2093.17</td></tr>
+          <tr><th scope="row">DRP</th><td>0.8340</td><td>721.00</td><td>0.6200</td><td>2122.00</td><td>0.3333</td><td>6135.00</td><td>0.2701</td><td>1289.50</td></tr>
+          <tr><th scope="row">SelfBudgeter</th><td>0.9189</td><td>1507.14</td><td>0.5347</td><td>1195.18</td><td>0.1342</td><td>1372.83</td><td>0.2357</td><td>2618.23</td></tr>
+          <tr><th scope="row">ThinkLess</th><td>0.9279</td><td>1421.90</td><td>0.5414</td><td>1101.21</td><td>0.1608</td><td>1405.40</td><td>0.2575</td><td>1708.70</td></tr>
+          <tr class="ours"><th scope="row">FROST</th><td>0.9311</td><td>154.33</td><td>0.5980</td><td>344.37</td><td>0.2667</td><td>899.80</td><td>0.2716</td><td>401.19</td></tr>
+          <tr class="group-row"><th scope="colgroup" colspan="9"><span class="nw">GPT-oss-20B</span></th></tr>
+          <tr><th scope="row">Base</th><td>0.8704</td><td>1275.23</td><td>0.5400</td><td>1575.36</td><td>0.1333</td><td>1003.57</td><td>0.2574</td><td>1586.95</td></tr>
+          <tr><th scope="row">TALE</th><td>0.8283</td><td>2664.41</td><td>0.5454</td><td>3878.87</td><td>0.2000</td><td>1354.67</td><td>0.2700</td><td>3262.47</td></tr>
+          <tr><th scope="row">DRP</th><td>0.7880</td><td>902.50</td><td>0.6146</td><td>4137.00</td><td>0.2245</td><td>4983.00</td><td>0.2715</td><td>1885.15</td></tr>
+          <tr><th scope="row">SelfBudgeter</th><td>0.8610</td><td>1850.00</td><td>0.5340</td><td>2285.00</td><td>0.1320</td><td>1256.00</td><td>0.2550</td><td>1298.00</td></tr>
+          <tr><th scope="row">ThinkLess</th><td>0.8740</td><td>1785.00</td><td>0.5410</td><td>2206.00</td><td>0.1600</td><td>1205.00</td><td>0.2580</td><td>1220.00</td></tr>
+          <tr class="ours"><th scope="row">FROST</th><td>0.8764</td><td>377.17</td><td>0.5800</td><td>680.89</td><td>0.1667</td><td>1009.60</td><td>0.2794</td><td>691.71</td></tr>
+          <tr class="group-row"><th scope="colgroup" colspan="9"><span class="nw">Magistral-Small-1.1</span></th></tr>
+          <tr><th scope="row">Base</th><td>0.6075</td><td>2664.41</td><td>0.1480</td><td>1389.89</td><td>0.0000</td><td>537.13</td><td>0.0699</td><td>1288.04</td></tr>
+          <tr><th scope="row">TALE</th><td>0.7146</td><td>1516.86</td><td>0.3040</td><td>723.91</td><td>0.0333</td><td>967.43</td><td>0.1544</td><td>748.18</td></tr>
+          <tr><th scope="row">DRP</th><td>0.6500</td><td>902.50</td><td>0.2100</td><td>1680.33</td><td>0.0450</td><td>1350.77</td><td>0.1120</td><td>1604.22</td></tr>
+          <tr><th scope="row">SelfBudgeter</th><td>0.6900</td><td>1850.00</td><td>0.2300</td><td>1520.00</td><td>0.0520</td><td>1256.00</td><td>0.1300</td><td>1298.00</td></tr>
+          <tr><th scope="row">ThinkLess</th><td>0.7200</td><td>1785.00</td><td>0.2500</td><td>1405.00</td><td>0.0600</td><td>1205.00</td><td>0.1450</td><td>1220.00</td></tr>
+          <tr class="ours"><th scope="row">FROST</th><td>0.7551</td><td>137.55</td><td>0.3040</td><td>98.20</td><td>0.0974</td><td>149.93</td><td>0.1551</td><td>109.23</td></tr>
+        </tbody></table></div>
+        <div class="result-notes"><p>Each evaluation runs three times with different seeds; the paper omits variance because it is at most 2%. The paper also reports each method's average change relative to the base model. Averaged over the three backbones, the paper reports a 26.70% accuracy improvement and a 69.68% reduction in token usage relative to the base models.</p><a class="text-link" href="https://arxiv.org/pdf/2601.19001#page=8">Full results &amp; protocol <span aria-hidden="true">↗</span></a></div>
+        <div class="subsection-heading"><h3>Fewer outliers, higher sentence entropy</h3><p>The paper measures the maximum infinity norm and average kurtosis of activation tensors across all layers, and uses average sentence entropy as a proxy for how critical the kept steps are. On AIME24 with <span class="nw">Phi-4-Reasoning</span>, FROST lowers the infinity norm by 15.97% and kurtosis by 91.09%, and raises sentence entropy by 13.28%, compared with the base model.</p></div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Outlier metrics on AIME24 with Phi-4-Reasoning"><table><caption>Outlier metrics · Table 3 · AIME24 · <span class="nw">Phi-4-Reasoning</span></caption><thead><tr><th scope="col">Method</th><th scope="col">Max. infinity norm ↓</th><th scope="col">Avg. kurtosis ↓</th><th scope="col">Avg. sentence entropy ↑</th><th scope="col">Pass@1 ↑</th><th scope="col">#Tk ↓</th></tr></thead><tbody>
+          <tr><th scope="row">Base</th><td>35.31</td><td>241.72</td><td>2.71</td><td>0.0667</td><td>1017.70</td></tr>
+          <tr><th scope="row">Softmax</th><td>34.53</td><td>189.36</td><td>2.79</td><td>0.1333</td><td>1909.07</td></tr>
+          <tr><th scope="row">Sparsemax</th><td>34.06</td><td>152.18</td><td>2.93</td><td>0.1667</td><td>948.60</td></tr>
+          <tr><th scope="row">Entmax</th><td>30.39</td><td>43.72</td><td>2.92</td><td>0.1667</td><td>876.63</td></tr>
+          <tr class="ours"><th scope="row">FROST</th><td>29.67</td><td>21.54</td><td>3.07</td><td>0.2667</td><td>899.80</td></tr>
+        </tbody></table></div>
+        <p class="section-source">Softmax, Sparsemax, and Entmax use the same fine-tuning setup as FROST with a different attention normalizer. <a href="https://arxiv.org/pdf/2601.19001#page=9">See Table 3 ↗</a></p>
+        <div class="subsection-heading"><h3>The choice of normalizer</h3><p>With the training setup held fixed on <span class="nw">Phi-4-Reasoning</span>, fine-tuning with plain Softmax lowers average accuracy and lengthens responses. Sparsemax and Entmax shorten responses, but they sharpen both low and high attention scores and can cut into steps that matter. \(\operatorname{Softmax}_1\) has the best averages; Entmax is higher on Minerva.</p></div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Average results across four benchmarks by attention normalizer"><table><caption>Averages over GSM8K, MATH500, AIME24, and Minerva · Table 2 · <span class="nw">Phi-4-Reasoning</span></caption><thead><tr><th scope="col">Normalizer</th><th scope="col">Mean Pass@1 ↑</th><th scope="col">Mean #Tk ↓</th></tr></thead><tbody>
+          <tr><th scope="row">Base model</th><td>0.4472</td><td>1414.05</td></tr>
+          <tr><th scope="row">Softmax</th><td>0.4230</td><td>1595.99</td></tr>
+          <tr><th scope="row">Sparsemax</th><td>0.4406</td><td>535.26</td></tr>
+          <tr><th scope="row">Entmax</th><td>0.4751</td><td>471.71</td></tr>
+          <tr class="ours"><th scope="row">\(\operatorname{Softmax}_1\) (FROST)</th><td>0.5169</td><td>449.92</td></tr>
+        </tbody></table></div>
+        <p class="section-source">Averages as reported in Table 2; the per-benchmark results are in the paper. <a href="https://arxiv.org/pdf/2601.19001#page=9">See Table 2 and Section 6.1 ↗</a></p>
+      </section>
+      <section id="evaluation" class="reading-section evaluation-section" aria-labelledby="evaluation-heading">
+        <div class="section-label"><span class="section-number">04</span><h2 id="evaluation-heading">Evaluation context</h2></div>
+        <div class="prose"><p>The models are fine-tuned on OpenR1 and evaluated on four <span class="nw">out-of-domain</span> math benchmarks: GSM8K, MATH500, AIME24, and Minerva. Accuracy is Pass@1, and efficiency is the number of tokens in the reasoning response. Baselines use the hyperparameters from their own papers.</p>
+          <dl class="protocol"><div><dt>Backbones</dt><dd><span class="nw">Phi-4-Reasoning</span> · <span class="nw">GPT-oss-20B</span> · <span class="nw">Magistral-Small-1.1</span></dd></div><div><dt>Fine-tuning</dt><dd>LoRA rank 8, alpha 16 · AdamW · learning rate \(10^{-5}\) · up to 5,000 steps · bfloat16</dd></div><div><dt>Decoding</dt><dd>Temperature 0.6 · <span class="nw">top-p</span> 0.9 · up to 4,096 generated tokens</dd></div><div><dt>Compute</dt><dd>2 NVIDIA H100 GPUs · 80GB each</dd></div><div><dt>Cost</dt><dd>Training 204 min, versus 353 for DRP and 1,186 for ThinkLess · AIME test time 3 min with <span class="nw">GPT-oss-20B</span></dd></div></dl>
+          <p>On three additional tasks outside mathematics, LeetCode, LiveCodeBench, and UGPhysics, FROST fine-tuned on math data raises the mean Pass@1 of <span class="nw">Phi-4-Reasoning</span> from 0.3214 to 0.3713 and reduces mean tokens from 2837.64 to 1312.13. The paper notes two limitations: training targets mathematical reasoning only, and the method uses supervised fine-tuning without <span class="nw">RL-based</span> training such as GRPO.</p><a class="text-link" href="https://arxiv.org/pdf/2601.19001#page=17">Training details and additional results ↗</a>
+        </div>
+      </section>
+      <section id="citation" class="reading-section citation" aria-labelledby="citation-heading">
+        <div class="section-label"><span class="section-number">05</span><h2 id="citation-heading">Citation</h2></div>
+        <div class="citation-content"><div class="citation-top"><span>BibTeX</span><div class="citation-actions"><a href="citation.bib" download>Download <span aria-hidden="true">↓</span></a><button type="button" id="copy-citation">Copy BibTeX</button></div></div><pre><code id="bibtex">@inproceedings{luo2026frost,
+  title     = {{FROST}: Filtering Reasoning Outliers with Attention for Efficient Reasoning},
+  author    = {Haozheng Luo and Zhuolin Jiang and Md Zahid Hasan and
+               Yan Chen and Soumalya Sarkar},
+  booktitle = {The Fourteenth International Conference on Learning Representations},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=a9dngZLqGS}
+}</code></pre><p class="copy-status" id="copy-status" role="status" aria-live="polite"></p></div>
+      </section>
+    </main>
+    <footer><div class="footer-top"><a class="wordmark" href="./">FROST</a><p>Filtering Reasoning Outliers with Attention for Efficient Reasoning</p><a class="text-link" href="https://openreview.net/forum?id=a9dngZLqGS">OpenReview <span aria-hidden="true">↗</span></a></div><div class="footer-bottom"><span>ICLR 2026</span><a href="https://github.com/oasis-research/oasis-research.github.io">Website source</a></div></footer>
+  </div>
+</body>
+</html>
