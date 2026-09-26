@@ -7,7 +7,7 @@ Project page for **Attention Sinks and Outliers in Attention Residuals**, accept
 
 ## Local preview
 
-This is a static website with no build step or package dependencies.
+This is a static website with no build step or package installation. KaTeX and its fonts are bundled with the site.
 
 ```sh
 python3 -m http.server 8000
@@ -19,13 +19,18 @@ Open `http://localhost:8000`.
 
 - `index.html`: title, authors, method, result table, citation, and metadata.
 - `styles.css`: typography, layout, and mobile styles.
-- `script.js`: copy-citation interaction, with a manual-copy fallback.
+- `script.js`: LaTeX rendering and the copy-citation interaction, with a manual-copy fallback.
 - `citation.bib`: downloadable citation; keep it synchronized with the HTML.
 - `assets/method.png`: Figure 1, cropped from page 2 of the manuscript.
+- `assets/vendor/katex/`: KaTeX 0.18.9, its fonts, and MIT license.
+
+Write inline math with `\(...\)` and display math with `\[...\]`. The renderer produces HTML and accessible MathML. Long equations scroll within their own region on small screens. The three displayed equations follow Sections 4.2 and 4.3 of the paper; the null posterior uses the per-head notation introduced in Section 4.3.
+
+After editing equations, run `node scripts/check-math.cjs`, then inspect the page in a browser.
 
 The displayed results are transcribed from Table 2 of the manuscript supplied for this page. They are reported experimental results, not an independent reproduction. The two highlights are a relative decrease in perplexity and an absolute percentage-point gain in accuracy, with their respective baselines identified.
 
-Authors, order, title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Author affiliations and contribution marks are omitted because they were not verified for this version. The BibTeX author list follows the named OpenReview author block.
+Authors, order, title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo and Haoran Dai are marked as equal contributors, as confirmed by the authors. Affiliations are omitted because they were not verified for this version. The BibTeX author list follows the named OpenReview author block.
 
 ## Hosting
 

@@ -32,8 +32,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;550;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="styles.css?v=3">
+  <script src="assets/vendor/katex/katex.min.js" defer></script>
+  <script src="assets/vendor/katex/contrib/auto-render.min.js" defer></script>
+  <script src="script.js?v=3" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -56,14 +59,15 @@
       </section>
       <section class="author-band" aria-labelledby="author-heading">
         <h2 id="author-heading">Authors</h2>
-        <div class="authors"><a href="https://openreview.net/profile?id=~Haozheng_Luo2">Haozheng Luo</a><a href="https://openreview.net/profile?id=~Haoran_Dai3">Haoran Dai</a><a href="https://openreview.net/profile?id=~Shaoyang_Zhang3">Shaoyang Zhang</a><a href="https://openreview.net/profile?id=~Xi_Chen101">Xi Chen</a><a href="https://openreview.net/profile?id=~Eric_Hanchen_Jiang1">Eric Hanchen Jiang</a><a href="https://openreview.net/profile?id=~Yijiang_Li1">Yijiang Li</a><a href="https://openreview.net/profile?id=~Jingyuan_Huang4">Jingyuan Huang</a><a href="https://openreview.net/profile?id=~Chenghao_Qiu2">Chenghao Qiu</a><a href="https://openreview.net/profile?id=~Chenwei_Xu2">Chenwei Xu</a><a href="https://openreview.net/profile?id=~Zhenyu_Pan1">Zhenyu Pan</a><a href="https://openreview.net/profile?id=~Haotian_Zhang15">Haotian Zhang</a><a href="https://openreview.net/profile?id=~Binghui_Wang2">Binghui Wang</a><a href="https://openreview.net/profile?id=~Yan_Chen1">Yan Chen</a></div>
+        <div class="authors"><a href="https://openreview.net/profile?id=~Haozheng_Luo2">Haozheng Luo<sup aria-label="Equal contribution">*</sup></a><a href="https://openreview.net/profile?id=~Haoran_Dai3">Haoran Dai<sup aria-label="Equal contribution">*</sup></a><a href="https://openreview.net/profile?id=~Shaoyang_Zhang3">Shaoyang Zhang</a><a href="https://openreview.net/profile?id=~Xi_Chen101">Xi Chen</a><a href="https://openreview.net/profile?id=~Eric_Hanchen_Jiang1">Eric Hanchen Jiang</a><a href="https://openreview.net/profile?id=~Yijiang_Li1">Yijiang Li</a><a href="https://openreview.net/profile?id=~Jingyuan_Huang4">Jingyuan Huang</a><a href="https://openreview.net/profile?id=~Chenghao_Qiu2">Chenghao Qiu</a><a href="https://openreview.net/profile?id=~Chenwei_Xu2">Chenwei Xu</a><a href="https://openreview.net/profile?id=~Zhenyu_Pan1">Zhenyu Pan</a><a href="https://openreview.net/profile?id=~Haotian_Zhang15">Haotian Zhang</a><a href="https://openreview.net/profile?id=~Binghui_Wang2">Binghui Wang</a><a href="https://openreview.net/profile?id=~Yan_Chen1">Yan Chen</a></div>
+        <p class="author-note"><span aria-hidden="true">*</span> Equal contribution.</p>
       </section>
       <section id="overview" class="reading-section overview" aria-labelledby="overview-heading">
         <div class="section-label"><span class="section-number">01</span><h2 id="overview-heading">Overview</h2></div>
         <div class="prose">
-          <p class="lead">OASIS uses token-level null evidence to guide attention across layers, reducing attention sinks and activation outliers in Attention Residuals.</p>
-          <p>Attention Residuals introduce depth-wise attention alongside token-wise attention. Standard softmax must distribute all probability mass over real tokens or branches, even when the desired update is close to zero.</p>
-          <p>OASIS introduces a null channel at both levels through Softmax<sub>1</sub>, then couples the two routers. Null probabilities are aggregated across attention heads and used to adjust depth-routing logits. Branches with stronger null evidence are downweighted relative to those with weaker null evidence.</p>
+          <p class="lead">OASIS uses token-level null evidence to guide attention across layers and reduce attention sinks and activation outliers in Attention Residuals.</p>
+          <p>Attention Residuals add depth-wise attention alongside token-wise attention. Standard softmax assigns all probability mass to real tokens or branches, even when the desired update is close to zero.</p>
+          <p>OASIS adds a \(\operatorname{Softmax}_1\) null channel at each level and couples the two routers. It aggregates null probabilities across attention heads, then uses that signal to adjust depth-routing logits. The adjustment is proportional to each branch's centered null signal.</p>
           <p>The paper analyzes this mechanism under stated assumptions and evaluates activation statistics, language-model perplexity, and reasoning accuracy under quantization.</p>
         </div>
       </section>
@@ -71,13 +75,43 @@
         <div class="wide-section-heading"><div class="section-label"><span class="section-number">02</span><h2 id="method-heading">The method</h2></div><a class="text-link" href="assets/method.png">View figure <span aria-hidden="true">↗</span></a></div>
         <figure class="paper-figure">
           <a class="figure-image" href="assets/method.png" aria-label="Open the full-size OASIS architecture figure"><img src="assets/method.png" width="1215" height="693" alt="Standard Attention Residuals compared with OASIS. OASIS introduces token- and depth-level Softmax1 null routes, then aggregates head-level null probabilities and adjusts depth-routing logits." loading="lazy"></a>
-          <figcaption><span>Figure 1.</span> AoS introduces null routes at token and depth levels. OASIS adds the token-to-depth coupling path. Architecture figure from the paper.</figcaption>
+          <figcaption><span>Figure 1.</span> AoS adds null routes at both the token and depth levels. OASIS couples the two through the token-to-depth path. Architecture figure from the paper.</figcaption>
         </figure>
         <ol class="method-steps">
-          <li><span class="step-index">01 /</span><h3>Null routing</h3><p>Softmax<sub>1</sub> reserves probability mass for an explicit zero-valued option at token and depth levels.</p></li>
-          <li><span class="step-index">02 /</span><h3>Head aggregation</h3><p>Token-level null probabilities are averaged across attention heads to obtain a branch-level signal.</p></li>
-          <li><span class="step-index">03 /</span><h3>Token-to-depth coupling</h3><p>The centered null signal adjusts depth logits before null-aware depth normalization.</p></li>
+          <li>
+            <div class="step-copy"><span class="step-index">01 /</span><h3>Null routing</h3><p>\(\operatorname{Softmax}_1\) gives attention an explicit zero-valued option at both levels. The null probability for one attention head is:</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="Token-level null probability">
+              \[
+                \tilde p_{t,\varnothing}^{(i,h)}
+                = \frac{1}{1+\sum_{k=1}^{m}\exp z_{t,k}^{(i,h)}}.
+              \]
+            </div>
+          </li>
+          <li>
+            <div class="step-copy"><span class="step-index">02 /</span><h3>Head aggregation</h3><p>OASIS averages the null probabilities across heads to measure how much a branch routes to the null state.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="Mean null probability across attention heads">
+              \[
+                \psi_{i,t}
+                = \frac{1}{H}\sum_{h=1}^{H}\tilde p_{t,\varnothing}^{(i,h)}.
+              \]
+            </div>
+          </li>
+          <li>
+            <div class="step-copy"><span class="step-index">03 /</span><h3>Token-to-depth coupling</h3><p>The router subtracts the centered null signal from each depth logit, scaled by \(\beta\geq 0\). It then applies \(\operatorname{Softmax}_1\) over depth.</p></div>
+            <div class="equation" tabindex="0" role="region" aria-label="Depth-routing logit adjustment">
+              \[
+                g^{\mathrm{new}}_{i\to\ell,t}
+                = g^{\mathrm{old}}_{i\to\ell,t}
+                  -\beta\,\Delta\psi_{i\to\ell,t}.
+              \]
+            </div>
+          </li>
         </ol>
+        <details class="math-notation">
+          <summary>Notation</summary>
+          <p>For query token \(t\), \(m\) is the number of key tokens allowed by the attention mask. The source branch is \(i\), the attention head is \(h\), and \(H\) is the number of heads. The token-attention logits are \(z_{t,k}^{(i,h)}\).</p>
+          <p>For target layer \(\ell\), \(g_{i\to\ell,t}\) is a depth-routing logit. The centered statistic \(\Delta\psi_{i\to\ell,t}\) is the difference between a branch's mean null probability and the candidate-branch mean. With \(\beta=0\), the coupling makes no adjustment. <a href="https://openreview.net/pdf?id=yjVSLVS0Dh#page=5">See Section 4.3 of the paper.</a></p>
+        </details>
       </section>
       <section id="results" class="results-section" aria-labelledby="results-heading">
         <div class="wide-section-heading"><div class="section-label"><span class="section-number">03</span><h2 id="results-heading">Selected results</h2></div><span class="section-aside">Language modeling &amp; reasoning</span></div>
@@ -103,7 +137,7 @@
             <tr><td>AoS</td><td>9.615 ± 0.011</td><td>54.21 ± 0.66</td></tr>
             <tr class="ours"><td>OASIS</td><td>9.517 ± 0.010</td><td>58.88 ± 0.59</td></tr>
           </tbody></table></div>
-        <div class="result-notes"><p>Mean ± standard deviation over three runs. “Vanilla” denotes the paper’s AttnResidual baseline; AoS uses independent null routing at both levels. Perplexity is measured on WikiText-2; GSM8K is Pass@1. W8A8 and W4A4 denote 8-bit and 4-bit weights and activations.</p><a class="text-link" href="https://openreview.net/pdf?id=yjVSLVS0Dh#page=8">Full results &amp; protocol <span aria-hidden="true">↗</span></a></div>
+        <div class="result-notes"><p>The table reports mean ± standard deviation over three runs. Vanilla is the paper's AttnResidual baseline; AoS uses independent null routing at both levels. The metrics are WikiText-2 perplexity and GSM8K Pass@1. W8A8 uses 8-bit weights and activations; W4A4 uses 4-bit weights and activations.</p><a class="text-link" href="https://openreview.net/pdf?id=yjVSLVS0Dh#page=8">Full results &amp; protocol <span aria-hidden="true">↗</span></a></div>
       </section>
       <section id="citation" class="reading-section citation" aria-labelledby="citation-heading">
         <div class="section-label"><span class="section-number">04</span><h2 id="citation-heading">Citation</h2></div>

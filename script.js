@@ -16,3 +16,18 @@ copyButton.addEventListener('click', async () => {
     status.textContent = 'Citation selected. Press Ctrl+C or ⌘C to copy, or download the .bib file.';
   }
 });
+
+try {
+  renderMathInElement(document.querySelector('main'), {
+    delimiters: [
+      { left: '\\[', right: '\\]', display: true },
+      { left: '\\(', right: '\\)', display: false }
+    ],
+    output: 'htmlAndMathml',
+    throwOnError: true,
+    strict: 'error',
+    trust: false
+  });
+} catch (error) {
+  console.error('Math rendering failed.', error);
+}
