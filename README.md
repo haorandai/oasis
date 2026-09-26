@@ -22,13 +22,17 @@ Open `http://localhost:8000`.
 - `script.js`: LaTeX rendering and the copy-citation interaction, with a manual-copy fallback.
 - `citation.bib`: downloadable citation; keep it synchronized with the HTML.
 - `assets/method.png`: Figure 1, cropped from page 2 of the manuscript.
+- `assets/observation-sinks.png` and `assets/observation-outliers.png`: Figures 2 and 3, rendered directly from pages 3 and 4 of the supplied manuscript.
+- `assets/quantization-*.svg`: selected FP16 and quantized means from Table 2; narrow-screen variants use horizontal bars. Regenerate with `python3 scripts/render-result-charts.py`.
 - `assets/vendor/katex/`: KaTeX 0.18.9, its fonts, and MIT license.
 
 Write inline math with `\(...\)` and display math with `\[...\]`. The renderer produces HTML and accessible MathML. Long equations scroll within their own region on small screens. The three displayed equations follow Sections 4.2 and 4.3 of the paper; the null posterior uses the per-head notation introduced in Section 4.3.
 
 After editing equations, run `node scripts/check-math.cjs`, then inspect the page in a browser.
 
-The displayed results are transcribed from Table 2 of the manuscript supplied for this page. They are reported experimental results, not an independent reproduction. The two highlights are a relative decrease in perplexity and an absolute percentage-point gain in accuracy, with their respective baselines identified.
+The displayed results are transcribed from Tables 2 and 3 of the manuscript supplied for this page. They are reported experimental results, not an independent reproduction. The two highlights are a relative decrease in perplexity and an absolute percentage-point gain in accuracy, with their respective baselines identified. Motivation uses the original Figures 2 and 3; their original-Transformer comparison is distinct from the Vanilla AttnResidual baseline in the result tables. Performance protocol and limitations follow Sections 6 and Appendices E-F. Unlabeled Figure 4 panels are not republished as a named before/after comparison.
+
+The content follows Motivation → Methodology → Results → Evaluation context → Citation. The explanation structure draws on the problem/mechanism/results progression of [StreamingLLM](https://hanlab.mit.edu/projects/streamingllm) and the case-based explanations in [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html). These are presentation references, not sources for OASIS experimental claims.
 
 Authors, order, title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo and Haoran Dai are marked as equal contributors, as confirmed by the authors. Affiliations are omitted because they were not verified for this version. The BibTeX author list follows the named OpenReview author block.
 

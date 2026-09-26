@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 350" role="img" aria-labelledby="title desc"><title id="title">Qwen3-0.6B: before and after quantization</title><desc id="desc">GSM8K Pass@1 (%) (higher is better). Vanilla: FP16 62.58; W4A4 45.67. OASIS: FP16 62.68; W4A4 58.88.</desc><rect width="320" height="350" fill="#fcfcfc"/><g font-family="Arial, Helvetica, sans-serif" fill="#303030">
+<text x="16" y="30" font-size="18">Qwen3-0.6B</text><text x="16" y="54" font-size="12">GSM8K Pass@1 (%) (higher is better)</text>
+<text x="16" y="98" font-size="16">Vanilla</text>
+<text x="16" y="135" font-size="13" fill="#666">FP16</text><rect x="70" y="120" width="134.994" height="20" fill="#929292"/><text x="247" y="136" font-size="16">62.58</text>
+<text x="16" y="170" font-size="13" fill="#666">W4A4</text><rect x="70" y="155" width="98.51671428571429" height="20" fill="#242424"/><text x="247" y="171" font-size="16">45.67</text>
+<text x="16" y="211" font-size="16">OASIS</text>
+<text x="16" y="248" font-size="13" fill="#666">FP16</text><rect x="70" y="233" width="135.20971428571428" height="20" fill="#929292"/><text x="247" y="249" font-size="16">62.68</text>
+<text x="16" y="283" font-size="13" fill="#666">W4A4</text><rect x="70" y="268" width="127.01257142857143" height="20" fill="#242424"/><text x="247" y="284" font-size="16">58.88</text>
+<line x1="70" x2="221" y1="319" y2="319" stroke="#d5d5d5"/><text x="70" y="338" font-size="12" fill="#666">0</text><text x="221" y="338" text-anchor="end" font-size="12" fill="#666">70</text></g></svg>

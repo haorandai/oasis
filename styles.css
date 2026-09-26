@@ -52,7 +52,7 @@ h1 { margin: 28px auto 26px; font-size: clamp(44px, 5.4vw, 72px); line-height: 1
 .prose p { color: #666; font-size: 17px; line-height: 1.85; letter-spacing: -.018em; margin-bottom: 20px; }
 .prose p:last-child { margin-bottom: 0; }
 .prose p.lead { font-size: 27px; line-height: 1.45; letter-spacing: -.045em; color: #292929; margin-bottom: 28px; }
-.method-section, .results-section { margin: 0 64px; padding: 43px 0 72px; border-top: 1px solid var(--line); }
+.motivation-section, .method-section, .results-section { margin: 0 64px; padding: 43px 0 72px; border-top: 1px solid var(--line); }
 .wide-section-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 34px; }
 .section-aside { font-size: 13px; color: var(--muted); }
 .paper-figure { margin: 0; }
@@ -117,6 +117,37 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 .math-notation p { max-width: 900px; margin-top: 15px; line-height: 1.8; }
 .math-notation a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 
+
+.anchor-alias { display: block; height: 0; }
+.motivation-section { border-top: 0; padding-top: 72px; }
+.reading-intro { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 25px; margin-bottom: 52px; }
+.observation-layout { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(0, 1.5fr); gap: 42px; align-items: center; }
+.observation-copy h3, .subsection-heading h3 { font-size: 23px; line-height: 1.35; font-weight: 450; letter-spacing: -.04em; margin-bottom: 18px; }
+.observation-copy p, .subsection-heading p { font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 16px; }
+.observation-copy .evidence-label { font-size: 12px; line-height: 1.8; color: #707070; margin-top: 25px; }
+.compact-figure { padding: 20px; }
+.subsection-heading { margin: 48px 0 25px; max-width: 890px; }
+.subsection-heading p:last-child { margin-bottom: 0; }
+.method-intro { margin-bottom: 28px; }
+.section-source { font-size: 12px; line-height: 1.8; color: #707070; margin: 15px 0 30px; max-width: 880px; }
+.section-source a, .paper-figure figcaption a, .research-details a { color: #333; text-decoration: underline; text-underline-offset: 3px; }
+.component-table tbody td { text-align: center; }
+.component-table thead th:not(:first-child) { text-align: center; }
+.component-table .ours th { font-weight: 550; }
+.research-details { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 20px; }
+.research-details summary { font-size: 14px; cursor: pointer; padding-block: 5px; }
+.research-details .prose { margin-top: 20px; }
+.research-details .prose p { font-size: 15px; }
+.quantization-figures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.quantization-figures figure { min-width: 0; }
+.quantization-figures img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.quantization-figures figcaption { margin-top: 12px; font-size: 13px; color: #707070; }
+.evaluation-section { border-top: 1px solid var(--line); }
+.protocol { margin: 25px 0 28px; font-size: 14px; }
+.protocol > div { display: grid; grid-template-columns: 150px 1fr; gap: 22px; padding-block: 13px; border-bottom: 1px solid var(--line); }
+.protocol dt { color: #707070; }
+.protocol dd { margin: 0; }
+
 @media (min-width: 1500px) {
   .hero { padding-top: 116px; padding-bottom: 94px; }
 }
@@ -124,9 +155,11 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
   .site-frame { margin-inline: 24px; }
   .site-header { padding-inline: 27px; gap: 28px; }
   .wordmark-note { display: none; }
+  .reading-intro { grid-template-columns: 112px minmax(0, 1fr); }
+  .observation-layout { gap: 25px; grid-template-columns: 1fr 1.4fr; }
   nav { gap: 22px; }
   .hero { padding: 86px 26px 64px; }
-  .author-band, .reading-section, .method-section, .results-section { margin-inline: 38px; }
+  .author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: 38px; }
   .author-band, .reading-section { grid-template-columns: 112px minmax(0, 1fr); }
   .prose p.lead { font-size: 25px; }
   .result-highlights article + article { padding-left: 30px; }
@@ -142,7 +175,9 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
   .brand-symbol { font-size: 28px; }
   .header-paper { display: none; }
   nav { font-size: 12px; gap: 17px; }
-  nav a:first-child { display: none; }
+  nav { width: 100%; margin-left: 0; justify-content: space-between; }
+  .site-header { flex-wrap: wrap; }
+  nav a { padding-block: 6px; }
   .hero { padding: 67px 20px 49px; }
   .paper-meta { font-size: 12px; gap: 12px; }
   h1 { font-size: clamp(36px, 6.9vw, 53px); line-height: 1.12; letter-spacing: -.06em; margin: 28px auto 22px; }
@@ -151,7 +186,7 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
   .resource-links { gap: 9px; margin-top: 27px; }
   .button { font-size: 13px; padding: 10px 16px; min-height: 44px; gap: 15px; }
   .resource-links .text-link { font-size: 12px; padding: 8px 10px; }
-  .author-band, .reading-section, .method-section, .results-section { margin-inline: 24px; }
+  .author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: 24px; }
   .author-band { grid-template-columns: 1fr; gap: 13px; padding: 23px 0 26px; }
   .author-band .author-note { grid-column: 1; }
   .authors { font-size: 13px; column-gap: 18px; row-gap: 7px; }
@@ -161,11 +196,19 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
   .section-label h2 { font-size: 16px; }
   .prose p.lead { font-size: 23px; line-height: 1.45; margin-bottom: 24px; }
   .prose p { font-size: 16px; line-height: 1.8; }
-  .method-section, .results-section { padding: 29px 0 42px; }
+  .motivation-section, .method-section, .results-section { padding: 29px 0 42px; }
   .wide-section-heading { gap: 15px; margin-bottom: 26px; }
   .wide-section-heading .text-link { font-size: 12px; }
   .figure-image { padding: 14px 8px; margin-inline: -12px; }
   .paper-figure figcaption { font-size: 12px; }
+  .reading-intro { grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; }
+  .observation-layout, .quantization-figures { grid-template-columns: 1fr; gap: 22px; }
+  .observation-copy h3, .subsection-heading h3 { font-size: 21px; }
+  .subsection-heading { margin-top: 34px; }
+  .compact-figure { padding: 10px 6px; }
+  .protocol > div { grid-template-columns: 1fr; gap: 5px; }
+  .component-table { max-width: 100%; }
+
   .method-steps { gap: 0; margin-top: 27px; }
   .method-steps li { display: block; padding: 24px 0; }
   .step-index { margin: 0 0 10px; }
