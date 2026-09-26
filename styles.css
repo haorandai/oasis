@@ -148,10 +148,23 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 .protocol dt { color: #707070; }
 .protocol dd { margin: 0; }
 
+/* Centered content track: every text block ends on the same right edge as figures and tables. */
+:root { --track: 1000px; --indent: 173px; }
+.author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: max(64px, calc((100% - var(--track)) / 2)); }
+.prose, .subsection-heading, .section-source, .paper-figure figcaption, .math-notation p { max-width: none; }
+.method-intro, .motivation-section > .subsection-heading, .results-section > .subsection-heading, .math-notation, .research-details { margin-left: var(--indent); }
+.result-notes p { max-width: none; flex: 1; }
+
+/* Line breaking: balanced headings, no orphans, names kept whole. */
+h1, h2, h3, .hero-deck, caption { text-wrap: balance; }
+p, figcaption, dd, summary { text-wrap: pretty; }
+.nw { white-space: nowrap; }
+
 @media (min-width: 1500px) {
   .hero { padding-top: 116px; padding-bottom: 94px; }
 }
 @media (max-width: 1100px) {
+  :root { --indent: 137px; }
   .site-frame { margin-inline: 24px; }
   .site-header { padding-inline: 27px; gap: 28px; }
   .wordmark-note { display: none; }
@@ -168,6 +181,7 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
   .figure-image { padding: 28px; }
 }
 @media (max-width: 760px) {
+  :root { --indent: 0px; }
   html { scroll-padding-top: 32px; }
   .site-frame { margin-inline: 16px; }
   .site-header { min-height: 72px; padding: 17px 20px; gap: 18px; }
@@ -181,7 +195,6 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
   .hero { padding: 67px 20px 49px; }
   .paper-meta { font-size: 12px; gap: 12px; }
   h1 { font-size: clamp(36px, 6.9vw, 53px); line-height: 1.12; letter-spacing: -.06em; margin: 28px auto 22px; }
-  .desktop-break { display: none; }
   .hero-deck { font-size: 17px; line-height: 1.55; max-width: 310px; margin: auto; }
   .resource-links { gap: 9px; margin-top: 27px; }
   .button { font-size: 13px; padding: 10px 16px; min-height: 44px; gap: 15px; }
