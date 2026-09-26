@@ -149,10 +149,9 @@ footer { border-top: 1px solid var(--line); padding: 37px 36px 24px; }
 .protocol dd { margin: 0; }
 
 /* Centered content track: every text block ends on the same right edge as figures and tables. */
-:root { --track: 1000px; --indent: 173px; }
+:root { --track: 1000px; }
 .author-band, .reading-section, .motivation-section, .method-section, .results-section { margin-inline: max(64px, calc((100% - var(--track)) / 2)); }
 .prose, .subsection-heading, .section-source, .paper-figure figcaption, .math-notation p { max-width: none; }
-.method-intro, .motivation-section > .subsection-heading, .results-section > .subsection-heading, .math-notation, .research-details { margin-left: var(--indent); }
 .result-notes p { max-width: none; flex: 1; }
 
 /* Line breaking: balanced headings, no orphans, names kept whole. */
@@ -160,11 +159,14 @@ h1, h2, h3, .hero-deck, caption { text-wrap: balance; }
 p, figcaption, dd, summary { text-wrap: pretty; }
 .nw { white-space: nowrap; }
 
+.method-intro-grid { margin-bottom: 40px; }
+.method-intro-grid .method-intro { margin-bottom: 0; }
+.section-link { margin-top: 12px; font-size: 13px; color: var(--muted); }
+
 @media (min-width: 1500px) {
   .hero { padding-top: 116px; padding-bottom: 94px; }
 }
 @media (max-width: 1100px) {
-  :root { --indent: 137px; }
   .site-frame { margin-inline: 24px; }
   .site-header { padding-inline: 27px; gap: 28px; }
   .wordmark-note { display: none; }
@@ -181,7 +183,8 @@ p, figcaption, dd, summary { text-wrap: pretty; }
   .figure-image { padding: 28px; }
 }
 @media (max-width: 760px) {
-  :root { --indent: 0px; }
+  .section-link { margin: 0 0 0 auto; font-size: 12px; }
+  .method-intro-grid .section-label { width: 100%; }
   html { scroll-padding-top: 32px; }
   .site-frame { margin-inline: 16px; }
   .site-header { min-height: 72px; padding: 17px 20px; gap: 18px; }
