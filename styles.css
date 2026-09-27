@@ -204,6 +204,7 @@ nav { align-items: center; }
 .nav-menu-venue { grid-column: 2; grid-row: 1; font-size: 12px; color: var(--muted); text-align: right; align-self: center; font-variant-numeric: tabular-nums; }
 .nav-menu-title { grid-column: 1 / -1; grid-row: 2; font-size: 12px; line-height: 1.5; color: var(--muted); text-wrap: pretty; }
 .nav-menu-list a[aria-current="page"] .nav-menu-name::after { content: ' · this page'; font-weight: 400; color: var(--muted); font-size: 12px; }
+.nav-menu-group { margin: 8px 13px 0; padding: 12px 0 2px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); letter-spacing: .02em; }
 
 @media (min-width: 1500px) {
   .hero { padding-top: 116px; padding-bottom: 94px; }

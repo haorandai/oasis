@@ -41,20 +41,24 @@ Affiliations and the author-to-affiliation mapping follow the `\author` block of
 
 ## Previous work pages
 
-The header's **Previous work** menu (hover or keyboard focus opens it; tap toggles it on touch; Escape closes it) links to three sub-pages built in the same style:
+The header's **Previous work** menu (hover or keyboard focus opens it; tap toggles it on touch; Escape closes it) links to four paper sub-pages and a toolkit page, built in the same style:
 
 | Path | Paper | Venue |
 |---|---|---|
 | `frost/` | FROST: Filtering Reasoning Outliers with Attention for Efficient Reasoning ([arXiv 2601.19001](https://arxiv.org/abs/2601.19001)) | ICLR 2026 |
+| `boost/` | Mind the Inconspicuous: Revealing the Hidden Weakness in Aligned LLMs' Refusal Boundaries ([arXiv 2405.20653](https://arxiv.org/abs/2405.20653)) | USENIX Security 2025 |
 | `germ/` | Fast and Low-Cost Genomic Foundation Models via Outlier Removal ([arXiv 2505.00598](https://arxiv.org/abs/2505.00598)) | ICML 2025 |
 | `outeffhop/` | Outlier-Efficient Hopfield Layers for Large Transformer-Based Models ([arXiv 2404.03828](https://arxiv.org/abs/2404.03828)) | ICML 2024 |
+| `hf-attention-normalizers/` | Toolkit: [robinzixuan/hf-attention-normalizers](https://github.com/robinzixuan/hf-attention-normalizers) | PyPI 0.1.0 |
 
-- Each sub-page loads the shared `../styles.css`, `../script.js`, and `../assets/vendor/katex/`, and has its own `citation.bib` and `assets/`. A short inline `<style>` in each page covers page-specific details (unlinked author names, table group headers, bold best values). On sub-pages the same menu is labelled **Related work** and also links back to OASIS; the current page is marked with `aria-current="page"`. When adding a paper, update the menu in all four `index.html` files.
+- Each sub-page loads the shared `../styles.css`, `../script.js`, and `../assets/vendor/katex/`, and has its own `citation.bib` and `assets/`. A short inline `<style>` in each page covers page-specific details (unlinked author names, table group headers, bold best values). On sub-pages the same menu is labelled **Related work** and also links back to OASIS; the current page is marked with `aria-current="page"`. The menu in every page is generated from one list: edit `PAPERS` / `TOOLKITS` in `scripts/update-menu.py` and run `python3 scripts/update-menu.py`. A new page needs a `<ul class="nav-menu-list" id="related-work"></ul>` placeholder inside its `.nav-menu`.
 - Figures are rendered from each paper's arXiv source (PDF figures rasterized with PyMuPDF and trimmed): FROST Figs. 1, 3, 4, 5; GERM Figs. 1, 2 and the first pair of appendix Fig. 3; OutEffHop Fig. 1 (source PNG) and Figs. 2–4 (cropped from PDF page 7). Numbers are transcribed from the papers' tables; headline percentages are computed from those tables and identify their baselines.
 - BibTeX for GERM and OutEffHop comes from PMLR (v267 `luo25g`, v235 `hu24a`). The FROST OpenReview forum id (`a9dngZLqGS`) is taken from ML Anthology because OpenReview blocks automated fetches; the page follows the arXiv camera-ready numbers, not the earlier workshop version.
 - Author names on the sub-pages are unlinked because the OpenReview profile ids were not verified. The ICML templates list every author as a correspondence contact, so no dagger is shown on GERM and OutEffHop.
 - `assets/logos/rtx.svg`, `iowa-state.svg`, and `mit.svg` (Commons `File:MIT 2023 red logo.svg`) are public-domain files from Wikimedia Commons, unmodified. `ntu.svg` (en.wikipedia `File:National_Taiwan_University_seal.svg`) is a non-free file used there under fair use, chosen by the authors.
 - Sub-page affiliations list institutions only, as confirmed by the authors: OutEffHop merges the paper's two Northwestern departments into one entry, and GERM lists Chenghao Qiu under Texas A&M University and Zoe Mehta under MIT at the authors' request; this differs from the paper's author block.
+- BOOST: numbers follow the published USENIX version (Tables 1, 2, 6; Sections 5, 6, 8), BibTeX from the USENIX page. Figures 2, 4, 7, 10 come from the arXiv source; figures containing harmful example prompts or responses (Figs. 1, 3, 5, 6) are deliberately left out, and the page gives no attack prompts. The `*` on Jiahao Yu and Haozheng Luo is rendered as equal contribution; the paper does not define it. The code link is MAGICS-LAB/XLLM. `assets/logos/ucsb.svg` is a public-domain file from Wikimedia Commons, unmodified.
+- hf-attention-normalizers: content is transcribed from the GitHub repository source and the PyPI 0.1.0 wheel as of 2026-09-26; the BibTeX is the repository's own `@software` entry. The backend table follows the code, which supports `paged|*` backends, not the older README matrix. The repository LICENSE is Apache-2.0 while `pyproject.toml`/PyPI metadata say MIT; the page shows Apache-2.0. Prose on this page is ragged-right because inline code names cannot hyphenate.
 
 ## Hosting
 
