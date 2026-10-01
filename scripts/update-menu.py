@@ -11,7 +11,6 @@ ROOT = Path(__file__).resolve().parent.parent
 # (folder, name, title, venue); '' is the OASIS page at the site root.
 PAPERS = [
     ('', 'OASIS', 'Attention Sinks and Outliers in Attention Residuals', 'NeurIPS 2026'),
-    ('ember', 'EMBER', 'Predicting TCR–pMHC Binding Without a Docked Complex', 'Preprint 2026'),
     ('frost', 'FROST', 'Filtering Reasoning Outliers with Attention for Efficient Reasoning', 'ICLR 2026'),
     ('boost', 'BOOST', "Mind the Inconspicuous: Revealing the Hidden Weakness in Aligned LLMs' Refusal Boundaries", 'USENIX Security 2025'),
     ('germ', 'GERM', 'Fast and Low-Cost Genomic Foundation Models via Outlier Removal', 'ICML 2025'),
