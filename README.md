@@ -39,15 +39,9 @@ The content follows Motivation → Methodology → Results → Evaluation contex
 
 Affiliations and the author-to-affiliation mapping follow the `\author` block of the manuscript; author emails are deliberately not published here. Corresponding authors are marked with a dagger. Title, year, and poster status were checked against the NeurIPS OpenReview record on September 26, 2026. Haozheng Luo, Haoran Dai, and Ching-Yuen Huang are marked as equal contributors, as confirmed by the authors; Ching-Yuen Huang is listed third, ahead of the remaining OpenReview order, at the authors' request. Affiliations are omitted because they were not verified for this version. The author list in `index.html`, the `citation_author` metadata, and the BibTeX entry all use this order.
 
-## Standalone pages
-
-`ember/` is not part of the OASIS line of work and is deliberately left out of the **Previous work** menu, so it is absent from `PAPERS` in `scripts/update-menu.py` and carries no menu of its own. It is reached by its URL alone, and nothing links to it from the rest of the site. Adding it to the family later means one entry in `PAPERS`, a `<ul class="nav-menu-list" id="related-work"></ul>` placeholder with its `</ul>` on its own line, and a run of the script.
-
-The page is built from a manuscript supplied for it that is not public. The page therefore links to no paper at all: the manuscript is deliberately not bundled here, the header slot and a line under the hero deck say a link follows once a preprint is posted, and there is no `citation_pdf_url`. Restoring the links means adding the URL in four places, the two `.header-paper`/hero slots, the footer, and the metadata. Figures were rendered from the supplied PDF before it was removed, and the file is not kept in this repository. The paper's running text calls the method SPECTRA while its title and figures call it EMBER; the page uses EMBER throughout, at the authors' request. Figures 1–5 come from pages 2, 4, 5, 8, and 10 of that manuscript, rendered with PyMuPDF at 250 dpi and trimmed to the figure. Tables 1–4 are transcribed from the manuscript, and the ablation table adds the two further arms of Appendix F.5. The two highlights are computed from Table 1 (MCC@0.5 under ESMFold2, against STAG-LLM) and Table 4 (tFold-TCR preprocessing). Percentages quoted in prose are the paper's own. A page-specific `.finding` style carries the paper's three numbered findings, one at the end of each section that states one. All six authors are at Northwestern University; emails are not published here, and the three corresponding authors are marked with a dagger.
-
 ## Previous work pages
 
-The header's **Previous work** menu (hover or keyboard focus opens it; tap toggles it on touch; Escape closes it) links to four paper sub-pages and a toolkit page (EMBER is excluded; see **Standalone pages**), built in the same style:
+The header's **Previous work** menu (hover or keyboard focus opens it; tap toggles it on touch; Escape closes it) links to four paper sub-pages and a toolkit page, built in the same style:
 
 | Path | Paper | Venue |
 |---|---|---|
@@ -65,6 +59,10 @@ The header's **Previous work** menu (hover or keyboard focus opens it; tap toggl
 - Sub-page affiliations list institutions only, as confirmed by the authors: OutEffHop merges the paper's two Northwestern departments into one entry, and GERM lists Chenghao Qiu under Texas A&M University and Zoe Mehta under MIT at the authors' request; this differs from the paper's author block.
 - BOOST: numbers follow the published USENIX version (Tables 1, 2, 6; Sections 5, 6, 8), BibTeX from the USENIX page. Figures 2, 4, 7, 10 come from the arXiv source; figures containing harmful example prompts or responses (Figs. 1, 3, 5, 6) are deliberately left out, and the page gives no attack prompts. The `*` on Jiahao Yu and Haozheng Luo is rendered as equal contribution; the paper does not define it. The code link is MAGICS-LAB/XLLM. `assets/logos/ucsb.svg` is a public-domain file from Wikimedia Commons, unmodified.
 - hf-attention-normalizers: content is transcribed from the GitHub repository source and the PyPI 0.1.0 wheel as of 2026-09-26; the BibTeX is the repository's own `@software` entry. The backend table follows the code, which supports `paged|*` backends, not the older README matrix. The repository LICENSE is Apache-2.0 while `pyproject.toml`/PyPI metadata say MIT; the page shows Apache-2.0. Prose on this page is ragged-right because inline code names cannot hyphenate.
+
+## Related sites
+
+The EMBER project page ([NWULIST/EMBER.github.io](https://github.com/NWULIST/EMBER.github.io), served at <https://nwulist.github.io/EMBER.github.io/>) was built in this style and lived here as `ember/` until it moved to its own repository. It is a separate line of work from the attention and outlier papers above, so it is not in the **Previous work** menu and nothing here links to it. Its copy of `styles.css` and `script.js` is self-contained: fixes made here do not reach it.
 
 ## Hosting
 
